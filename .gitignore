@@ -1,0 +1,12 @@
+# Docker MySQL data
+backend/docker/db/data/
+
+# Node
+frontend/node_modules/
+
+# Symfony
+backend/var/
+backend/vendor/
+
+# env files
+.env

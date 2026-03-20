@@ -1,0 +1,67 @@
+services:
+
+  #backend
+  backend:
+    build:
+      context: ./backend
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-localhost}, backend:80
+      DEFAULT_URI: https://${SERVER_NAME:-localhost}:${HTTPS_PORT:-443}
+
+      MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+
+      DATABASE_URL: mysql://${MYSQL_USER:-app}:${MYSQL_PASSWORD:-!ChangeMe!}@database:3306/kalinka_db?serverVersion=${MYSQL_VERSION:-8.0.32}&charset=${MYSQL_CHARSET:-utf8mb4}
+
+      MERCURE_URL: ${CADDY_MERCURE_URL:-http://backend/.well-known/mercure}
+      MERCURE_PUBLIC_URL: ${CADDY_MERCURE_PUBLIC_URL:-https://${SERVER_NAME:-localhost}:${HTTPS_PORT:-443}/.well-known/mercure}
+      MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: mysql:${MYSQL_VERSION:-8.0.32}
+    environment:
+      MYSQL_DATABASE: kalinka_db
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}
+      MYSQL_USER: ${MYSQL_USER:-app}
+    ports:
+      - "3306:3306"
+    volumes:
+      - database_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+
+  #frontend
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+
+volumes:
+  caddy_data:
+  caddy_config:
+  database_data:
