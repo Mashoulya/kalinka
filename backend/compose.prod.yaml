@@ -1,11 +1,11 @@
 ---
 # Production environment override
 services:
-  php:
+  backend:
     image: ${IMAGES_PREFIX:-}app-php-prod
     build:
-      context: .
-      target: frankenphp_prod
+      context: ./backend
+      target: frankenphp_base
     environment:
       APP_SECRET: ${APP_SECRET}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
