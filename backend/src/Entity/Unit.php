@@ -16,10 +16,10 @@ class Unit
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
-    private string $name;
+    private ?string $name = null;
 
     #[ORM\Column(length: 10)]
-    private string $code;
+    private ?string $code = null;
 
     /**
      * @var Collection<int, Product>
@@ -37,7 +37,7 @@ class Unit
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -49,7 +49,7 @@ class Unit
         return $this;
     }
 
-    public function getCode(): string
+    public function getCode(): ?string
     {
         return $this->code;
     }

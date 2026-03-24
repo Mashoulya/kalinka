@@ -17,22 +17,22 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    private string $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private string $price;
+    private ?string $price = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3, nullable: true)]
     private ?string $weightVolume = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private string $description;
+    private ?string $description = null;
 
     #[ORM\Column]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private \DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * @var Collection<int, Category>
@@ -43,16 +43,9 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Unit $unit = null;
 
-    /**
-     * @var Collection<int, Photo>
-     */
-    #[ORM\OneToMany(targetEntity: Photo::class, mappedBy: 'product', orphanRemoval: true)]
-    private Collection $photos;
-
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-        $this->photos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -60,7 +53,7 @@ class Product
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -72,7 +65,7 @@ class Product
         return $this;
     }
 
-    public function getPrice(): string
+    public function getPrice(): ?string
     {
         return $this->price;
     }
@@ -96,7 +89,7 @@ class Product
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -108,7 +101,7 @@ class Product
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -120,7 +113,7 @@ class Product
         return $this;
     }
 
-    public function getUpdatedAt(): \DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -164,36 +157,6 @@ class Product
     public function setUnit(?Unit $unit): static
     {
         $this->unit = $unit;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Photo>
-     */
-    public function getPhotos(): Collection
-    {
-        return $this->photos;
-    }
-
-    public function addPhoto(Photo $photo): static
-    {
-        if (!$this->photos->contains($photo)) {
-            $this->photos->add($photo);
-            $photo->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removePhoto(Photo $photo): static
-    {
-        if ($this->photos->removeElement($photo)) {
-            // set the owning side to null (unless already changed)
-            if ($photo->getProduct() === $this) {
-                $photo->setProduct(null);
-            }
-        }
 
         return $this;
     }

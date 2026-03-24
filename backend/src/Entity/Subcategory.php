@@ -14,24 +14,24 @@ class Subcategory
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    private string $name;
+    private ?string $name;
 
     #[ORM\Column]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt;
 
     #[ORM\Column]
-    private \DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt;
 
     #[ORM\ManyToOne(inversedBy: 'subcategories')]
     #[ORM\JoinColumn(nullable: false)]
-    private Category $category;
+    private ?Category $category = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -43,7 +43,7 @@ class Subcategory
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -55,7 +55,7 @@ class Subcategory
         return $this;
     }
 
-    public function getUpdatedAt(): \DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -67,7 +67,7 @@ class Subcategory
         return $this;
     }
 
-    public function getCategory(): Category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
