@@ -2,19 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\PhotoRepository;
+use App\Repository\SubcategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PhotoRepository::class)]
-class Photo
+#[ORM\Entity(repositoryClass: SubcategoryRepository::class)]
+class Subcategory
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private string $fileData;
+    #[ORM\Column(length: 100)]
+    private string $name;
 
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
@@ -22,23 +22,23 @@ class Photo
     #[ORM\Column]
     private \DateTimeImmutable $updatedAt;
 
-    #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\ManyToOne(inversedBy: 'subcategories')]
     #[ORM\JoinColumn(nullable: false)]
-    private Product $product;
+    private Category $category;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFileData(): string
+    public function getName(): string
     {
-        return $this->fileData;
+        return $this->name;
     }
 
-    public function setFileData(string $fileData): static
+    public function setName(string $name): static
     {
-        $this->fileData = $fileData;
+        $this->name = $name;
 
         return $this;
     }
@@ -67,14 +67,14 @@ class Photo
         return $this;
     }
 
-    public function getProduct(): Product
+    public function getCategory(): Category
     {
-        return $this->product;
+        return $this->category;
     }
 
-    public function setProduct(Product $product): static
+    public function setCategory(Category $category): static
     {
-        $this->product = $product;
+        $this->category = $category;
 
         return $this;
     }
