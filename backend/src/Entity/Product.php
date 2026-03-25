@@ -34,21 +34,18 @@ class Product
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    /**
-     * @var Collection<int, Category>
-     */
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
-    private Collection $categories;
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Unit $unit = null;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Photo::class)]
     private Collection $photos;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Subcategory $subcategory = null;
+
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
         $this->photos = new ArrayCollection();
     }
 
@@ -129,30 +126,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategories(): Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory(Category $category): static
-    {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        $this->categories->removeElement($category);
-
-        return $this;
-    }
-
     public function getUnit(): ?Unit
     {
         return $this->unit;
@@ -191,6 +164,18 @@ class Product
                 $photo->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSubcategory(): ?Subcategory
+    {
+        return $this->subcategory;
+    }
+
+    public function setSubcategory(?Subcategory $subcategory): static
+    {
+        $this->subcategory = $subcategory;
 
         return $this;
     }

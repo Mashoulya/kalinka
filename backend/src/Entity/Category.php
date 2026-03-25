@@ -25,12 +25,6 @@ class Category
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
-     * @var Collection<int, Product>
-     */
-    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'categories')]
-    private Collection $products;
-
-    /**
      * @var Collection<int, Subcategory>
      */
     #[ORM\OneToMany(targetEntity: Subcategory::class, mappedBy: 'category')]
@@ -38,7 +32,6 @@ class Category
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
         $this->subcategories = new ArrayCollection();
     }
 
@@ -79,33 +72,6 @@ class Category
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): static
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-            $product->addCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): static
-    {
-        if ($this->products->removeElement($product)) {
-            $product->removeCategory($this);
-        }
 
         return $this;
     }
