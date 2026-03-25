@@ -43,9 +43,13 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Unit $unit = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Photo::class)]
+    private Collection $photos;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,6 +161,36 @@ class Product
     public function setUnit(?Unit $unit): static
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Photo>
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): static
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos->add($photo);
+            $photo->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): static
+    {
+        if ($this->photos->removeElement($photo)) {
+            // set the owning side to null (unless already changed)
+            if ($photo->getProduct() === $this) {
+                $photo->setProduct(null);
+            }
+        }
 
         return $this;
     }
