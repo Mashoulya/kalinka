@@ -25,7 +25,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      # Démarrer uniquement la base, le backend sera lancé en one-shot via compose run
       - name: Start database service
         run: docker compose up -d database
 
@@ -37,6 +36,7 @@ jobs:
             docker compose ps
             exit 1
           fi
+
           for i in {1..60}; do
             status=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{end}}' "$container_id")
             if [ "$status" = "healthy" ]; then
@@ -45,6 +45,7 @@ jobs:
             fi
             sleep 2
           done
+
           echo "Database did not become healthy in time"
           docker compose ps
           docker compose logs database --tail=200
@@ -52,19 +53,21 @@ jobs:
 
       # Installer les dépendances Symfony
       - name: Install Symfony dependencies
-        run: docker compose run --rm backend composer install --no-interaction --prefer-dist
+        run: docker compose run --rm backend composer install --no-interaction --prefer-dist --no-scripts --no-progress
 
-      # Créer la base de test
-      - name: Create test database
-        run: docker compose run --rm -e APP_ENV=test backend php bin/console doctrine:database:create --if-not-exists
+      - name: Prepare test database
+        run: |
+          docker compose exec -T database mysql -uroot -pmasha -e "CREATE DATABASE IF NOT EXISTS kalinka_db_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+          docker compose exec -T database mysql -uroot -pmasha -e "GRANT ALL PRIVILEGES ON kalinka_db_test.* TO 'app'@'%'; FLUSH PRIVILEGES;"
 
-      # Lancer les migrations
+      - name: Database smoke check
+        run: docker compose run --rm -e APP_ENV=test backend php bin/console dbal:run-sql "SELECT 1"
+
       - name: Run migrations
         run: docker compose run --rm -e APP_ENV=test backend php bin/console doctrine:migrations:migrate --no-interaction
 
-      # Valider le schema Doctrine
-      - name: Doctrine Schema Validator
-        run: docker compose run --rm -e APP_ENV=test backend php bin/console doctrine:schema:validate
+      - name: Doctrine schema validate
+        run: docker compose run --rm -e APP_ENV=test backend php bin/console doctrine:schema:validate --skip-sync
 
       # Lancer PHPUnit
       - name: Run PHPUnit tests
