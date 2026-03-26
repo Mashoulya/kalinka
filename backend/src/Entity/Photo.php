@@ -26,6 +26,12 @@ class Photo
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

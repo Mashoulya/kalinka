@@ -26,21 +26,24 @@ jobs:
       - name: Start Docker services
         run: docker compose up -d
 
+      - name: Wait for containers
+        run: sleep 10
+
       # Installer les dépendances Symfony
       - name: Install Symfony dependencies
         run: docker compose exec -T php composer install --no-interaction --prefer-dist
 
       # Créer la base de test
       - name: Create test database
-        run: docker compose exec -T php php bin/console -e test doctrine:database:create || true
+        run: docker compose exec -T php php bin/console -e test doctrine:database:create
 
       # Lancer les migrations
       - name: Run migrations
-        run: docker compose exec -T php php bin/console -e test doctrine:migrations:migrate --no-interaction || true
+        run: docker compose exec -T php php bin/console -e test doctrine:migrations:migrate --no-interaction
 
       # Valider le schema Doctrine
       - name: Doctrine Schema Validator
-        run: docker compose exec -T php php bin/console -e test doctrine:schema:validate || true
+        run: docker compose exec -T php php bin/console -e test doctrine:schema:validate
 
       # Lancer PHPUnit
       - name: Run PHPUnit tests
