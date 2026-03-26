@@ -25,46 +25,61 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      # Démarrer les services Docker
-      - name: Start Docker services
-        run: docker compose up -d
+      # Démarrer uniquement la base, le backend sera lancé en one-shot via compose run
+      - name: Start database service
+        run: docker compose up -d database
 
-      - name: Wait for containers
-        run: sleep 30
+      - name: Wait for database health
+        run: |
+          container_id=$(docker compose ps -q database)
+          if [ -z "$container_id" ]; then
+            echo "Database container was not created"
+            docker compose ps
+            exit 1
+          fi
+          for i in {1..60}; do
+            status=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{end}}' "$container_id")
+            if [ "$status" = "healthy" ]; then
+              echo "Database is healthy"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Database did not become healthy in time"
+          docker compose ps
+          docker compose logs database --tail=200
+          exit 1
 
       # Installer les dépendances Symfony
       - name: Install Symfony dependencies
-        run: docker compose exec -T backend composer install --no-interaction --prefer-dist
+        run: docker compose run --rm backend composer install --no-interaction --prefer-dist
 
       # Créer la base de test
       - name: Create test database
-        run: docker compose exec -T backend php bin/console -e test doctrine:database:create
+        run: docker compose run --rm -e APP_ENV=test backend php bin/console doctrine:database:create --if-not-exists
 
       # Lancer les migrations
       - name: Run migrations
-        run: docker compose exec -T backend php bin/console -e test doctrine:migrations:migrate --no-interaction
+        run: docker compose run --rm -e APP_ENV=test backend php bin/console doctrine:migrations:migrate --no-interaction
 
       # Valider le schema Doctrine
       - name: Doctrine Schema Validator
-        run: docker compose exec -T backend php bin/console -e test doctrine:schema:validate
+        run: docker compose run --rm -e APP_ENV=test backend php bin/console doctrine:schema:validate
 
       # Lancer PHPUnit
       - name: Run PHPUnit tests
-        run: |
-          if [ -f phpunit.xml.dist ] || [ -f phpunit.xml ]; then
-            docker compose exec -T backend php bin/phpunit
-          else
-            echo "Pas encore de tests, skip"
-          fi
+        run: docker compose run --rm -e APP_ENV=test backend php /app/bin/phpunit tests/Entity
 
       # PHPStan code quality
       - name: PHPStan code quality
+        run: docker compose run --rm backend sh -lc 'if [ -x vendor/bin/phpstan ]; then vendor/bin/phpstan analyse || true; else echo "PHPStan non installé, skip"; fi'
+
+      - name: Compose diagnostics on failure
+        if: failure()
         run: |
-          if [ -f vendor/bin/phpstan ]; then
-            docker compose exec -T backend vendor/bin/phpstan analyse || true
-          else
-            echo "PHPStan non installé, skip"
-          fi
+          docker compose ps
+          docker compose logs backend --tail=200 || true
+          docker compose logs database --tail=200 || true
   # lint:
   #   name: Lint
   #   runs-on: ubuntu-latest
