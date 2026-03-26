@@ -42,7 +42,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Cache dependencies at build time (use context root: ./backend)
 COPY composer.json composer.lock symfony.lock ./
-RUN composer install --no-cache --prefer-dist --no-dev --optimize-autoloader
+RUN composer install --no-cache --prefer-dist --no-dev --optimize-autoloader --no-scripts --no-interaction --no-progress
 
 # ajoute PATH pour éviter ton bug "composer not found"
 ENV PATH="/usr/local/bin:/usr/bin:/bin:/root/.composer/vendor/bin:${PATH}"
