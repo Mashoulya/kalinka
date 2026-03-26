@@ -21,12 +21,6 @@ jobs:
   backend:
     name: TestsBackend CI
     runs-on: ubuntu-latest
-    env:
-      APP_ENV: test
-      APP_DEBUG: 1
-      APP_SECRET: ci_secret
-      DATABASE_URL: mysql://app:masha@database:3306/kalinka_db?serverVersion=8.0.32&charset=utf8mb4
-      APP_RUNTIME_OPTIONS: '{"disable_dotenv":true}'
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -57,9 +51,8 @@ jobs:
           docker compose logs database --tail=200
           exit 1
 
-      # Installer les dépendances Symfony
       - name: Install Symfony dependencies
-        run: docker compose run --rm --entrypoint sh backend -lc 'composer install --no-interaction --prefer-dist --no-scripts --no-progress'
+        run: docker compose run --rm --entrypoint sh -e APP_ENV=test -e APP_DEBUG=1 -e APP_SECRET=ci_secret -e DATABASE_URL='mysql://app:masha@database:3306/kalinka_db?serverVersion=8.0.32&charset=utf8mb4' -e APP_RUNTIME_OPTIONS='{"disable_dotenv":true}' backend -lc 'composer install --no-interaction --prefer-dist --no-scripts --no-progress'
 
       - name: Prepare test database
         run: |
@@ -67,21 +60,19 @@ jobs:
           docker compose exec -T database mysql -uroot -pmasha -e "GRANT ALL PRIVILEGES ON kalinka_db_test.* TO 'app'@'%'; FLUSH PRIVILEGES;"
 
       - name: Database smoke check
-        run: docker compose run --rm --entrypoint sh backend -lc 'php bin/console dbal:run-sql "SELECT 1"'
+        run: docker compose run --rm --entrypoint sh -e APP_ENV=test -e APP_DEBUG=1 -e APP_SECRET=ci_secret -e DATABASE_URL='mysql://app:masha@database:3306/kalinka_db?serverVersion=8.0.32&charset=utf8mb4' -e APP_RUNTIME_OPTIONS='{"disable_dotenv":true}' backend -lc 'php bin/console dbal:run-sql "SELECT 1"'
 
       - name: Run migrations
-        run: docker compose run --rm --entrypoint sh backend -lc 'php bin/console doctrine:migrations:migrate --no-interaction'
+        run: docker compose run --rm --entrypoint sh -e APP_ENV=test -e APP_DEBUG=1 -e APP_SECRET=ci_secret -e DATABASE_URL='mysql://app:masha@database:3306/kalinka_db?serverVersion=8.0.32&charset=utf8mb4' -e APP_RUNTIME_OPTIONS='{"disable_dotenv":true}' backend -lc 'php bin/console doctrine:migrations:migrate --no-interaction'
 
       - name: Doctrine schema validate
-        run: docker compose run --rm --entrypoint sh backend -lc 'php bin/console doctrine:schema:validate --skip-sync'
+        run: docker compose run --rm --entrypoint sh -e APP_ENV=test -e APP_DEBUG=1 -e APP_SECRET=ci_secret -e DATABASE_URL='mysql://app:masha@database:3306/kalinka_db?serverVersion=8.0.32&charset=utf8mb4' -e APP_RUNTIME_OPTIONS='{"disable_dotenv":true}' backend -lc 'php bin/console doctrine:schema:validate --skip-sync'
 
-      # Lancer PHPUnit
       - name: Run PHPUnit tests
-        run: docker compose run --rm --entrypoint sh backend -lc 'php /app/bin/phpunit tests/Entity'
+        run: docker compose run --rm --entrypoint sh -e APP_ENV=test -e APP_DEBUG=1 -e APP_SECRET=ci_secret -e DATABASE_URL='mysql://app:masha@database:3306/kalinka_db?serverVersion=8.0.32&charset=utf8mb4' -e APP_RUNTIME_OPTIONS='{"disable_dotenv":true}' backend -lc 'php /app/bin/phpunit tests/Entity'
 
-      # PHPStan code quality
       - name: PHPStan code quality
-        run: docker compose run --rm backend sh -lc 'if [ -x vendor/bin/phpstan ]; then vendor/bin/phpstan analyse || true; else echo "PHPStan non installé, skip"; fi'
+        run: docker compose run --rm --entrypoint sh -e APP_ENV=test -e APP_DEBUG=1 -e APP_SECRET=ci_secret -e DATABASE_URL='mysql://app:masha@database:3306/kalinka_db?serverVersion=8.0.32&charset=utf8mb4' -e APP_RUNTIME_OPTIONS='{"disable_dotenv":true}' backend -lc 'if [ -x vendor/bin/phpstan ]; then vendor/bin/phpstan analyse || true; else echo "PHPStan non installe, skip"; fi'
 
       - name: Compose diagnostics on failure
         if: failure()
@@ -89,23 +80,3 @@ jobs:
           docker compose ps
           docker compose logs backend --tail=200 || true
           docker compose logs database --tail=200 || true
-  # lint:
-  #   name: Lint
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     packages: read
-  #     statuses: write
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v6
-  #       with:
-  #         fetch-depth: 0
-  #         persist-credentials: false
-  #     - name: Lint Code Base
-  #       uses: super-linter/super-linter/slim@v8
-  #       env:
-  #         GITHUB_ACTIONS_CONFIG_FILE: actionlint.yaml
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         VALIDATE_CHECKOV: false
-  #         VALIDATE_TRIVY: false
