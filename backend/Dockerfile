@@ -37,10 +37,14 @@ EOF
 # =========================
 COPY --from=composer_upstream /usr/bin/composer /usr/local/bin/composer
 
-# 👉 TON FIX IMPORTANT EST ICI
+# Allow Composer plugins when building as root
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-# 👇 ajoute PATH pour éviter ton bug "composer not found"
+# Cache dependencies at build time (use context root: ./backend)
+COPY composer.json composer.lock symfony.lock ./
+RUN composer install --no-interaction --prefer-dist --no-progress --no-scripts
+
+# ajoute PATH pour éviter ton bug "composer not found"
 ENV PATH="/usr/local/bin:/usr/bin:/bin:/root/.composer/vendor/bin:${PATH}"
 
 # =========================
