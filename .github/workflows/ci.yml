@@ -1,0 +1,87 @@
+---
+name: CI Symfony
+
+on:
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - '**'
+  workflow_dispatch: ~
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: TestsBackend CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # Démarrer les services Docker
+      - name: Start Docker services
+        run: docker compose up -d
+
+      - name: Wait for containers
+        run: sleep 30
+
+      # Installer les dépendances Symfony
+      - name: Install Symfony dependencies
+        run: docker compose exec -T backend composer install --no-interaction --prefer-dist
+
+      # Créer la base de test
+      - name: Create test database
+        run: docker compose exec -T backend php bin/console -e test doctrine:database:create
+
+      # Lancer les migrations
+      - name: Run migrations
+        run: docker compose exec -T backend php bin/console -e test doctrine:migrations:migrate --no-interaction
+
+      # Valider le schema Doctrine
+      - name: Doctrine Schema Validator
+        run: docker compose exec -T backend php bin/console -e test doctrine:schema:validate
+
+      # Lancer PHPUnit
+      - name: Run PHPUnit tests
+        run: |
+          if [ -f phpunit.xml.dist ] || [ -f phpunit.xml ]; then
+            docker compose exec -T backend php bin/phpunit
+          else
+            echo "Pas encore de tests, skip"
+          fi
+
+      # PHPStan code quality
+      - name: PHPStan code quality
+        run: |
+          if [ -f vendor/bin/phpstan ]; then
+            docker compose exec -T backend vendor/bin/phpstan analyse || true
+          else
+            echo "PHPStan non installé, skip"
+          fi
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Lint Code Base
+        uses: super-linter/super-linter/slim@v8
+        env:
+          GITHUB_ACTIONS_CONFIG_FILE: actionlint.yaml
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_CHECKOV: false
+          VALIDATE_TRIVY: false
