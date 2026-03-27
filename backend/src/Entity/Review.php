@@ -14,7 +14,7 @@ class Review
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 32)]
+    #[ORM\Column(length: 64)]
     private ?string $externalId = null;
 
     #[ORM\Column(length: 150)]
