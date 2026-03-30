@@ -30,6 +30,7 @@ class UserFixtures extends Fixture
             $user->setCity($faker->city());
             $user->setPhone($faker->phoneNumber());
             $user->setEmail($faker->unique()->email());
+            $user->setRoles(['ROLE_USER']);
 
             $user->setPassword(
                 $this->passwordHasher->hashPassword($user, 'password123')
