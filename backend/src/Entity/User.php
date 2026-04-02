@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -18,36 +19,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(enumType: Gender::class)]
+    #[Assert\NotNull]
     private ?Gender $title = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/'
+    )]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/'
+    )]
     private ?string $firstName = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Assert\NotNull]
+    #[Assert\Type(\DateTimeInterface::class)]
     private ?\DateTimeImmutable $birthDate = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank]
     private ?string $postalCode = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/'
+    )]
     private ?string $city = null;
 
     #[ORM\Column(length: 20, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^(?:\+33\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/'
+    )]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 8)]
+    #[Assert\Regex(
+        pattern: '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/'
+    )]
     private ?string $password = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: Types::JSON)]
