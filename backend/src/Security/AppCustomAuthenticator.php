@@ -13,6 +13,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 /**
  * @see https://symfony.com/doc/current/security/custom_authenticator.html
@@ -22,7 +23,7 @@ class AppCustomAuthenticator extends AbstractAuthenticator
    public function __construct(private JwtManager $jwtManager)
     {
     }
-    
+
     public function supports(Request $request): ?bool
     {
         return $request->isMethod('POST') && $request->getPathInfo() === '/api/login';
