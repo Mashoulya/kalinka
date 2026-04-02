@@ -20,7 +20,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
  */
 class AppCustomAuthenticator extends AbstractAuthenticator
 {
-   public function __construct(private JwtManager $jwtManager)
+   public function __construct(private JWTTokenManagerInterface $jwtManager)
     {
     }
 
