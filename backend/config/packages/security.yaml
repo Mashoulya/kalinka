@@ -16,7 +16,7 @@ security:
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
         main:
-            lazy: true
+            pattern: ^/api
             provider: app_user_provider
             custom_authenticators:
                 - App\Security\AppCustomAuthenticator
@@ -33,6 +33,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # A VOIR LES ROUTES ACCESSIBLES SANS AUTHENTIFICATION
 
 when@test:
     security:
