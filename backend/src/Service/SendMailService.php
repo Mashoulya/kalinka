@@ -19,8 +19,11 @@ class SendMailService
         array $context = []
     ): void {
         foreach ($context as $key => $value) {
-            $html = str_replace('{{ ' . $key . ' }}', (string) $value, $html);
-            $html = str_replace('{{' . $key . '}}', (string) $value, $html);
+            $html = str_replace(
+                ['{{ ' . $key . ' }}', '{{' . $key . '}}'],
+                htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8'),
+                $html
+            );
         }
 
         $email = (new Email())
