@@ -16,6 +16,50 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    /**
+     * @return Category[]
+     */
+    public function findAllOrdered(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Category[]
+     */
+    public function findAllWithSubcategories(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.subcategories', 's')
+            ->addSelect('s')
+            ->orderBy('c.name', 'ASC')
+            ->addOrderBy('s.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Category[]
+     */
+    public function findMenuTree(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.subcategories', 's')
+            ->addSelect('s')
+            ->leftJoin('s.products', 'p')
+            ->addSelect('p')
+            ->leftJoin('p.unit', 'u')
+            ->addSelect('u')
+            ->orderBy('c.name', 'ASC')
+            ->addOrderBy('s.name', 'ASC')
+            ->addOrderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Category[] Returns an array of Category objects
     //     */
