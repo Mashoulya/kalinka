@@ -4,6 +4,9 @@ namespace App\Controller\Auth;
 
 use App\Entity\User;
 use App\Enum\Gender;
+use App\Repository\UserRepository;
+use App\Service\EmailVerifier;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,10 +18,31 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class RegistrationController extends AbstractController
 {
     #[Route('/api/register', name: 'api_register', methods: ['POST'])]
-
-    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager, ValidatorInterface $validator): JsonResponse
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $entityManager,
+        ValidatorInterface $validator,
+        EmailVerifier $emailVerifier,
+        UserRepository $userRepository
+    ): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
+        $email = (string) ($data['email'] ?? '');
+        $phone = (string) ($data['phone'] ?? '');
+
+        if ($userRepository->findOneBy(['email' => $email]) instanceof User) {
+            return new JsonResponse([
+                'error' => 'Email already in use.',
+            ], JsonResponse::HTTP_CONFLICT);
+        }
+
+        if ($userRepository->findOneBy(['phone' => $phone]) instanceof User) {
+            return new JsonResponse([
+                'error' => 'Phone already in use.',
+            ], JsonResponse::HTTP_CONFLICT);
+        }
 
         $gender = Gender::tryFrom((string) ($data['title'] ?? ''));
         if ($gender === null) {
@@ -42,8 +66,8 @@ final class RegistrationController extends AbstractController
         $user->setBirthDate($birthDate);
         $user->setPostalCode($data['postalCode']);
         $user->setCity($data['city']);  
-        $user->setPhone($data['phone']);
-        $user->setEmail($data['email']);
+        $user->setPhone($phone);
+        $user->setEmail($email);
         $user->setPassword($passwordHasher->hashPassword($user, $data['password']));
 
         $user->setRoles(['ROLE_USER']);
@@ -55,9 +79,44 @@ final class RegistrationController extends AbstractController
             return new JsonResponse(['errors' => (string) $errors], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $entityManager->persist($user);
-        $entityManager->flush();
+        try {
+            $entityManager->persist($user);
+            $entityManager->flush();
+        } catch (UniqueConstraintViolationException) {
+            return new JsonResponse([
+                'error' => 'Email or phone already in use.',
+            ], JsonResponse::HTTP_CONFLICT);
+        }
 
-        return new JsonResponse(['message' => 'User registered successfully'], JsonResponse::HTTP_CREATED);
+        $emailVerifier->sendEmailConfirmation('api_verify_email', $user);
+
+        return new JsonResponse([
+            'message' => 'User registered successfully. Please verify your email.',
+        ], JsonResponse::HTTP_CREATED);
+    }
+
+    #[Route('/api/verify/email', name: 'api_verify_email', methods: ['GET'])]
+    public function verifyUserEmail(
+        Request $request,
+        UserRepository $userRepository,
+        EmailVerifier $emailVerifier
+    ): JsonResponse {
+        $id = $request->query->getInt('id');
+        if ($id <= 0) {
+            return new JsonResponse(['error' => 'Missing or invalid user id.'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $user = $userRepository->find($id);
+        if (!$user instanceof User) {
+            return new JsonResponse(['error' => 'User not found.'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        try {
+            $emailVerifier->handleEmailConfirmation($request->getUri(), $user);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        return new JsonResponse(['message' => 'Email verified successfully.'], JsonResponse::HTTP_OK);
     }
 }
