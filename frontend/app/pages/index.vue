@@ -1,5 +1,10 @@
+<!-- pages/index.vue -->
+<script setup>
+definePageMeta({
+  layout: 'home'
+})
+</script>
+
 <template>
-  <h1 class="text-2xl font-bold">
-    Accueil e-commerce
-  </h1>
+  <h1>Accueil</h1>
 </template>
