@@ -1,18 +1,12 @@
-FROM node:lts-alpine
+FROM node:20
 
 WORKDIR /app
 
-# Copier uniquement les fichiers de dépendances
 COPY package*.json ./
-
-# Installer les dépendances
 RUN npm install
 
-# Copier le reste du projet
 COPY . .
 
-# Exposer le port Vite
-EXPOSE 5173
+EXPOSE 3000
 
-# Lancer le serveur de dev Vite
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["npm", "run", "dev"]

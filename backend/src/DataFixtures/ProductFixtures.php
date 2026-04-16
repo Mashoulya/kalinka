@@ -3,20 +3,40 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use App\Entity\Product;
 use App\Entity\Subcategory;
 use App\Entity\Unit;
 
-class ProductFixtures extends Fixture
+class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @return array<class-string>
+     */
+    public function getDependencies(): array
+    {
+        return [
+            SubcategoryFixtures::class,
+            UnitFixtures::class,
+        ];
+    }
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
 
         $subcategories = $manager->getRepository(Subcategory::class)->findAll();
         $units = $manager->getRepository(Unit::class)->findAll();
+
+        if ($subcategories === []) {
+            throw new \RuntimeException('No subcategories found. Load SubcategoryFixtures before ProductFixtures.');
+        }
+
+        if ($units === []) {
+            throw new \RuntimeException('No units found. Load UnitFixtures before ProductFixtures.');
+        }
 
         for ($i = 0; $i < 200; $i++) {
             $product = new Product();
@@ -26,11 +46,11 @@ class ProductFixtures extends Fixture
             $subcategory = $faker->randomElement($subcategories);
             $product->setSubcategory($subcategory);
 
-            // Choisir une unité aléatoire
+            // Choisir une unite aleatoire
             $unit = $faker->randomElement($units);
             $product->setUnit($unit);
 
-            // Générer weightVolume selon l'unité
+            // Generer weightVolume selon l'unite
             switch ($unit->getCode()) {
                 case 'kg':
                     $weight = $faker->randomFloat(3, 0.1, 10);
