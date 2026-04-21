@@ -5,6 +5,16 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
   css: ['~/assets/css/fonts.css'],
 
+  vite: {
+    server: {
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        port: 3000,
+      }
+    }
+  },
+
   tailwindcss: {
     config: {
       theme: {
