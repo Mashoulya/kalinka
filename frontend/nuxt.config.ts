@@ -34,7 +34,8 @@ export default defineNuxtConfig({
               hover: '#222222',
               topnav: '#17171799',
               nav: '#171717',
-              stroke: '#39393A'
+              stroke: '#39393A',
+              txt: '#0D121699',
             },
           }
         }
