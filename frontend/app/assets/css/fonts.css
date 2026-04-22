@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'Sora';
+    src: url('/fonts/Sora-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}

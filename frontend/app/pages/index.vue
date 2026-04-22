@@ -1,5 +1,8 @@
+<!-- pages/index.vue -->
+<script setup>
+
+</script>
+
 <template>
-  <h1 class="text-2xl font-bold">
-    Accueil e-commerce
-  </h1>
+  <h1>Page d'accueil</h1>
 </template>
