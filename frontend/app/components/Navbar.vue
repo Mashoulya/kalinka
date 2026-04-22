@@ -72,17 +72,19 @@ const closeMenu = () => {
 
     <!-- BOTTOM BAR -->
     <div class="bg-black-nav md:border-black-stroke w-full mx-auto px-4 py-4">
-      <div class="flex flex-wrap items-center justify-between gap-3 md:gap-4">
+      <div
+        class="flex flex-wrap items-center justify-between md:justify-start gap-3 md:gap-4"
+      >
         <NuxtLink to="/" @click="closeMenu">
           <img
             src="/logos/logo-kalinka-blanc.png"
             alt="logo"
-            class="h-8 md:h-10"
+            class="h-6 md:h-7"
           />
         </NuxtLink>
 
-        <nav class="hidden md:block md:order-2">
-          <ul class="flex gap-8 font-medium text-white text-base">
+        <nav class="hidden md:block flex-1 md:flex md:justify-center">
+          <ul class="flex items-center text-center gap-6 font-medium text-white text-base">
             <li v-for="link in navConfig.links" :key="link.to">
               <NuxtLink :to="link.to">{{ link.label }}</NuxtLink>
             </li>
@@ -120,28 +122,29 @@ const closeMenu = () => {
           </button>
         </div>
 
+        <!-- BARRE DE RECHERCHE -->
         <div
-          v-if="isShopPage && !isMenuOpen"
-          class="order-4 w-full md:order-2 md:w-auto md:ml-auto"
+          v-if="route.path !== '/' && !isMenuOpen"
+          class="order-4 w-full md:order-2 md:w-[clamp(14rem,30vw,20rem)] lg:w-[clamp(20rem,34vw,28rem)] md:ml-auto"
         >
           <form
-            class="flex w-full md:w-[29rem] h-11 md:h-12 pl-5 md:pl-6 pr-1 items-center justify-between rounded-full bg-white"
+            class="flex w-full h-11 md:h-11 lg:h-12 pl-4 md:pl-5 lg:pl-6 pr-1 items-center rounded-full bg-white"
             action=""
           >
             <input
               type="text"
-              placeholder="Rechercher un produit"
-              class="w-full bg-transparent border-0 outline-none text-[#0D1615] placeholder:text-[rgba(13,22,21,0.60)] placeholder:text-sm"
+              placeholder="Rechercher..."
+              class="w-full min-w-0 bg-transparent border-0 outline-none text-black-txt placeholder:text-black-txt placeholder:text-sm"
             />
             <button
               type="button"
               aria-label="Lancer la recherche"
-              class="h-9 w-9 rounded-full bg-red-light flex items-center justify-center"
+              class="h-10 w-10 shrink-0 rounded-full bg-red-light flex items-center justify-center"
             >
               <img
                 src="/logos/icon-search.svg"
                 alt="icon-search"
-                class="h-4 w-4"
+                class="h-10 w-10"
               />
             </button>
           </form>
