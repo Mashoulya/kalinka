@@ -44,7 +44,7 @@ const closeMenu = () => {
     <div
       class="hidden md:flex bg-black-topnav text-sm py-2 border-b border-black-stroke w-full mx-auto justify-between px-4 gap-6"
     >
-      <div class="flex justify-start gap-10">
+      <div class="flex justify-start gap-10 lg:px-20">
         <div class="flex items-center gap-2">
           <img src="/logos/tel.png" alt="logo-phone" />
           <span>0205040102</span>
@@ -56,7 +56,7 @@ const closeMenu = () => {
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 md:px-20">
         <img
           src="/logos/icon-fb.svg"
           alt="logo-facebook"
@@ -73,7 +73,7 @@ const closeMenu = () => {
     <!-- BOTTOM BAR -->
     <div class="bg-black-nav md:border-black-stroke w-full mx-auto px-4 py-4">
       <div
-        class="flex flex-wrap items-center justify-between md:justify-start gap-3 md:gap-4"
+        class="flex flex-wrap items-center justify-between md:justify-start gap-3 md:gap-4 lg:px-20"
       >
         <NuxtLink to="/" @click="closeMenu">
           <img
