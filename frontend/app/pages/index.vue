@@ -6,7 +6,7 @@
   <main>
     <!-- SECTION HERO -->
     <section
-      class="absolute inset-0 h-screen w-full flex flex-col justify-center bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/images/image-home.png')] bg-cover bg-center bg-no-repeat z-[-1] px-5 md:px-20"
+      class="w-full flex flex-col justify-end bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/images/image-home.png')] bg-cover bg-center bg-no-repeat z-[-1] px-5 py-[50px] md:px-20"
     >
       <h1 class="text-white text-4xl font-bold mb-5 md:text-7xl">
         Les trésors <br />
@@ -18,14 +18,28 @@
         vous invite à un voyage gustatif entre tradition et convivialité.
       </p>
       <div class="flex gap-5 mb-5">
-        <div class="flex">
-          <img src="" alt="clients" />
-          <img src="" alt="clients" />
-          <img src="" alt="clients" />
+        <div class="flex -space-x-3">
+          <img
+            src="/logos/profile1.jpg"
+            alt="clients"
+            class="w-14 h-14 rounded-full"
+          />
+          <img
+            src="/logos/profile2.jpg"
+            alt="clients"
+            class="w-14 h-14 rounded-full"
+          />
+          <img
+            src="/logos/profile3.jpg"
+            alt="clients"
+            class="w-14 h-14 rounded-full"
+          />
         </div>
         <div class="">
           <p>⭐⭐⭐⭐⭐</p>
-          <p>4,8/5 sur 308 avis google</p>
+          <p class="font-medium text-white">
+            <span class="text-xl">4,8</span>/5 sur 308 avis google
+          </p>
         </div>
       </div>
 
@@ -46,6 +60,32 @@
           />
         </span>
       </NuxtLink>
+    </section>
+
+    <!-- SECTION PROMO -->
+    <section class="bg-white-section px-5 md:px-20">
+      <!-- header -->
+      <div class="flex items-center gap-2 pt-20">
+        <img src="/logos/icon-section.svg" alt="icon-section" />
+        <p class="uppercase text-red-light text-lg font-semibold">
+          Nos meilleures offres du moment
+        </p>
+      </div>
+      <div class="grid items-center gap-8 md:grid-cols-2 md:gap-20 lg:gap-28">
+        <h2 class="max-w-xl text-5xl font-bold leading-tight text-black-hover">
+          Les promotions à ne pas manquer
+        </h2>
+        <p class="text-black-nav max-w-prose leading-8">
+          C’est le moment ou jamais de craquer ! Nous avons sélectionné pour
+          vous des produits phares à prix réduits, sans compromis sur la
+          qualité. Que ce soit pour vous faire plaisir ou pour gâter vos
+          proches, ces promotions sont l’occasion idéale d’acheter malin.
+        </p>
+      </div>
+      <!-- cards -->
+      <div class="section-cards"></div>
+
+      <div class="section-btn"></div>
     </section>
   </main>
 </template>

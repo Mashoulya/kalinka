@@ -38,6 +38,9 @@ export default defineNuxtConfig({
               stroke: '#39393A',
               txt: '#0D121699',
             },
+            white: {
+              section : '#FAFAFA',
+            },
           }
         }
       }
