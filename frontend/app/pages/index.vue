@@ -71,21 +71,29 @@
           Nos meilleures offres du moment
         </p>
       </div>
-      <div class="grid items-center gap-8 md:grid-cols-2 md:gap-20 lg:gap-28">
-        <h2 class="max-w-xl text-5xl font-bold leading-tight text-black-hover">
+      <div class="grid items-start gap-8 md:grid-cols-2 md:gap-20 lg:gap-28">
+        <h2 class="max-w-xl text-5xl font-bold leading-tight text-black-2">
           Les promotions à ne pas manquer
         </h2>
-        <p class="text-black-nav max-w-prose leading-8">
+        <p class="text-black-1 max-w-prose leading-8">
           C’est le moment ou jamais de craquer ! Nous avons sélectionné pour
           vous des produits phares à prix réduits, sans compromis sur la
           qualité. Que ce soit pour vous faire plaisir ou pour gâter vos
           proches, ces promotions sont l’occasion idéale d’acheter malin.
         </p>
       </div>
-      <!-- cards -->
-      <div class="section-cards"></div>
 
-      <div class="section-btn"></div>
+      <!-- cards -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-3 md:gap-y-8 mt-10">
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </div>
     </section>
   </main>
 </template>

@@ -32,13 +32,14 @@ export default defineNuxtConfig({
               dark: '#315739',
             },
             black: {
-              hover: '#222222',
-              topnav: '#17171799',
-              nav: '#171717',
-              stroke: '#39393A',
-              txt: '#0D121699',
+              DEFAULT: '#000000',
+              1: '#171717',
+              2: '#222222',
+              3: '#0D1216',
+              4: '#39393A',
             },
             white: {
+              DEFAULT: '#FFFFFF',
               section : '#FAFAFA',
             },
           }
