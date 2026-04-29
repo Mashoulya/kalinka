@@ -1,0 +1,20 @@
+.btn-cta {
+    @apply inline-flex items-center font-bold rounded-full h-12 pl-5 pr-1 self-start gap-3;
+}
+
+.btn-cta-label {
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+.btn-cta-arrow {
+    transition: transform 0.2s ease;
+}
+
+.btn-cta:hover .btn-cta-arrow {
+    transform: rotate(45deg);
+}
+
+.btn-cta:active .btn-cta-arrow {
+    transform: rotate(45deg);
+}

@@ -39,12 +39,12 @@ const closeMenu = () => {
 </script>
 
 <template>
-  <header class="w-full bg-black-hover font-sora text-white">
+  <header class="w-full bg-black-2 font-sora text-white">
     <!-- TOP BAR (desktop) -->
     <div
-      class="hidden md:flex bg-black-topnav text-sm py-2 border-b border-black-stroke w-full mx-auto justify-between px-4 gap-6"
+      class="hidden md:flex bg-black-1/60 text-sm py-2 border-b border-black-4 w-full mx-auto justify-between px-4 gap-6"
     >
-      <div class="flex justify-start gap-10">
+      <div class="flex justify-start gap-10 lg:px-20">
         <div class="flex items-center gap-2">
           <img src="/logos/tel.png" alt="logo-phone" />
           <span>0205040102</span>
@@ -56,7 +56,7 @@ const closeMenu = () => {
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 md:px-20">
         <img
           src="/logos/icon-fb.svg"
           alt="logo-facebook"
@@ -71,9 +71,9 @@ const closeMenu = () => {
     </div>
 
     <!-- BOTTOM BAR -->
-    <div class="bg-black-nav md:border-black-stroke w-full mx-auto px-4 py-4">
+    <div class="bg-black-1 md:border-black-4 w-full mx-auto px-4 py-4">
       <div
-        class="flex flex-wrap items-center justify-between md:justify-start gap-3 md:gap-4"
+        class="flex flex-wrap items-center justify-between md:justify-start gap-3 md:gap-4 lg:px-20"
       >
         <NuxtLink to="/" @click="closeMenu">
           <img
@@ -134,7 +134,7 @@ const closeMenu = () => {
             <input
               type="text"
               placeholder="Rechercher..."
-              class="w-full min-w-0 bg-transparent border-0 outline-none text-black-txt placeholder:text-black-txt placeholder:text-sm"
+              class="w-full min-w-0 bg-transparent border-0 outline-none text-black-3/60 placeholder:text-black-3/60 placeholder:text-sm"
             />
             <button
               type="button"
@@ -155,7 +155,7 @@ const closeMenu = () => {
     <!-- MOBILE MENU -->
     <div
       v-if="isMenuOpen"
-      class="md:hidden bg-black-nav border-b border-black-stroke"
+      class="md:hidden bg-black-1 border-b border-black-4"
     >
       <div class="px-6 py-7 border-t-4 border-red-light">
         <div class="flex items-center justify-between mb-5">

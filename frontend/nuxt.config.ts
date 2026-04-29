@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss'],
-  css: ['~/assets/css/fonts.css'],
+  css: ['~/assets/css/fonts.css', '~/assets/css/buttons.css'],
 
   vite: {
     server: {
@@ -25,17 +25,25 @@ export default defineNuxtConfig({
           colors: {
             red: {
               light: '#C1121F',  // rouge primaire
-              dark: '#8b1a1a',  // rouge foncé
+              dark: '#A20D19',  // rouge foncé
             },
             green: {
-              DEFAULT: '#3D6245',
+              light: '#3D6245',
+              dark: '#315739',
             },
             black: {
-              hover: '#222222',
-              topnav: '#17171799',
-              nav: '#171717',
-              stroke: '#39393A',
-              txt: '#0D121699',
+              DEFAULT: '#000000',
+              1: '#171717',
+              2: '#222222',
+              3: '#0D1216',
+              4: '#39393A',
+            },
+            white: {
+              DEFAULT: '#FFFFFF',
+              section : '#FAFAFA',
+            },
+            beige: {
+              light: '#FDF0D5',
             },
           }
         }
