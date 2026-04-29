@@ -17,7 +17,7 @@
         Kalinka, votre épicerie spécialisée en produits d'Europe de l'Est,<br />
         vous invite à un voyage gustatif entre tradition et convivialité.
       </p>
-      <div class="flex gap-5 mb-5">
+      <div class="flex flex-col gap-5 mb-5 md:flex-row">
         <div class="flex -space-x-3">
           <img
             src="/logos/profile1.jpg"
@@ -37,29 +37,43 @@
         </div>
         <div class="">
           <p>⭐⭐⭐⭐⭐</p>
-          <p class="font-medium text-white">
-            <span class="text-xl">4,8</span>/5 sur 308 avis google
+          <p class="font-medium text-white text-sm md:text-base">
+            <span class="text-base md:text-xl">4,8</span>/5 sur 308 avis google
           </p>
         </div>
       </div>
 
-      <NuxtLink
-        to="/shop"
-        class="btn-cta group bg-white text-red-light transition-colors duration-200 hover:text-red-dark"
-      >
-        <span class="btn-cta-label transition-colors duration-200"
-          >Faire une commande</span
+      <div class="flex justify-between items-center">
+        <NuxtLink
+          to="/shop"
+          class="btn-cta group bg-white text-red-light transition-colors duration-200 hover:text-red-dark"
         >
-        <span
-          class="btn-cta-circle bg-red-light flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200 group-hover:bg-red-dark"
+          <span class="btn-cta-label transition-colors duration-200"
+            >Faire une commande</span
+          >
+          <span
+            class="btn-cta-circle bg-red-light flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200 group-hover:bg-red-dark"
+          >
+            <img
+              src="/logos/icon-arrow.svg"
+              class="btn-cta-arrow w-4 h-4"
+              alt="icon-arrow"
+            />
+          </span>
+        </NuxtLink>
+
+        <!-- scroll icon -->
+
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-full border-[3px] border-beige-light bg-black-2 hidden md:flex"
         >
           <img
-            src="/logos/icon-arrow.svg"
-            class="btn-cta-arrow w-4 h-4"
-            alt="icon-arrow"
+            src="/logos/icon-arrow-down.svg"
+            alt="arrow-down"
+            class="block h-4 w-4"
           />
-        </span>
-      </NuxtLink>
+        </div>
+      </div>
     </section>
 
     <!-- SECTION PROMO -->
@@ -84,7 +98,9 @@
       </div>
 
       <!-- cards -->
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-3 md:gap-y-8 mt-10">
+      <div
+        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-3 md:gap-y-8 mt-10"
+      >
         <ProductCard />
         <ProductCard />
         <ProductCard />

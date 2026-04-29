@@ -42,6 +42,9 @@ export default defineNuxtConfig({
               DEFAULT: '#FFFFFF',
               section : '#FAFAFA',
             },
+            beige: {
+              light: '#FDF0D5',
+            },
           }
         }
       }
