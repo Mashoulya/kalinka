@@ -79,14 +79,14 @@
     <!-- SECTION PROMO -->
     <section class="bg-white-section px-5 md:px-20">
       <!-- header -->
-      <div class="flex items-center gap-2 pt-20">
+      <div class="flex items-center gap-2 py-10">
         <img src="/logos/icon-section.svg" alt="icon-section" />
         <p class="uppercase text-red-light text-lg font-semibold">
-          Nos meilleures offres du moment
+          <span class="hidden md:inline">Nos meilleures </span>offres du moment
         </p>
       </div>
       <div class="grid items-start gap-8 md:grid-cols-2 md:gap-20 lg:gap-28">
-        <h2 class="max-w-xl text-5xl font-bold leading-tight text-black-2">
+        <h2 class="max-w-xl text-3xl font-bold leading-tight text-black-2 md:text-5xl">
           Les promotions à ne pas manquer
         </h2>
         <p class="text-black-1 max-w-prose leading-8">
@@ -99,7 +99,7 @@
 
       <!-- cards -->
       <div
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-3 md:gap-y-8 mt-10"
+        class="mt-10 grid grid-cols-2 gap-x-2 gap-y-6 md:grid-cols-3 md:gap-x-3 md:gap-y-8 lg:grid-cols-4"
       >
         <ProductCard />
         <ProductCard />

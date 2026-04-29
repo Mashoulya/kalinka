@@ -14,7 +14,7 @@ const decrement = () => {
 
 
 <template>
-  <div class="w-[300px] bg-white">
+  <div class="w-full max-w-[300px] justify-self-center bg-white">
     <div class="p-5">
       <div
         class="product-mask relative aspect-[138/160] w-full overflow-hidden"
