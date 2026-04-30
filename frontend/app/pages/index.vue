@@ -48,23 +48,14 @@ const { data: products } = await useFetch("/api/products", {
       </div>
 
       <div class="flex justify-between items-center">
-        <NuxtLink
+        <AppButton
           to="/shop"
-          class="btn-cta group bg-white text-red-light transition-colors duration-200 hover:text-red-dark"
+          variant="white-btn"
+          icon-src="/logos/icon-arrow-white.svg"
+          icon-alt="icon-arrow"
         >
-          <span class="btn-cta-label transition-colors duration-200"
-            >Faire une commande</span
-          >
-          <span
-            class="btn-cta-circle bg-red-light flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200 group-hover:bg-red-dark"
-          >
-            <img
-              src="/logos/icon-arrow-white.svg"
-              class="btn-cta-arrow w-4 h-4"
-              alt="icon-arrow"
-            />
-          </span>
-        </NuxtLink>
+          Faire une commande
+        </AppButton>
 
         <!-- scroll icon -->
 
@@ -115,22 +106,13 @@ const { data: products } = await useFetch("/api/products", {
       </div>
 
       <div class="mt-10 flex justify-center">
-        <NuxtLink
-          class="btn-cta group bg-red-light text-white transition-colors duration-200 hover:bg-red-dark"
+        <AppButton
+          variant="red-btn"
+          icon-src="/logos/icon-arrow-red.svg"
+          icon-alt="icon-arrow"
         >
-          <span class="btn-cta-label transition-colors duration-200"
-            >Faire une commande</span
-          >
-          <span
-            class="btn-cta-circle bg-white flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200"
-          >
-            <img
-              src="/logos/icon-arrow-red.svg"
-              class="btn-cta-arrow w-4 h-4"
-              alt="icon-arrow"
-            />
-          </span>
-        </NuxtLink>
+          Faire une commande
+        </AppButton>
       </div>
     </section>
   </main>
