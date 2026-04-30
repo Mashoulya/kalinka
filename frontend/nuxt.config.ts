@@ -5,12 +5,25 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
   css: ['~/assets/css/fonts.css', '~/assets/css/buttons.css'],
 
+  runtimeConfig: {
+    apiBase: 'http://backend',
+    public: {
+      apiBase: '',
+    }
+  },
+
   vite: {
     server: {
       hmr: {
         protocol: 'ws',
         host: 'localhost',
         port: 3000,
+      },
+      proxy: {
+        '/api': {
+          target: 'http://backend',
+          changeOrigin: true,
+        }
       }
     }
   },

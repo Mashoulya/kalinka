@@ -1,5 +1,9 @@
 <!-- pages/index.vue -->
-<script setup>
+<script setup lang="ts">
+const config = useRuntimeConfig();
+const { data: products } = await useFetch("/api/products", {
+  baseURL: config.apiBase,
+});
 </script>
 
 <template>
@@ -55,7 +59,7 @@
             class="btn-cta-circle bg-red-light flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200 group-hover:bg-red-dark"
           >
             <img
-              src="/logos/icon-arrow.svg"
+              src="/logos/icon-arrow-white.svg"
               class="btn-cta-arrow w-4 h-4"
               alt="icon-arrow"
             />
@@ -86,7 +90,9 @@
         </p>
       </div>
       <div class="grid items-start gap-8 md:grid-cols-2 md:gap-20 lg:gap-28">
-        <h2 class="max-w-xl text-3xl font-bold leading-tight text-black-2 md:text-5xl">
+        <h2
+          class="max-w-xl text-3xl font-bold leading-tight text-black-2 md:text-5xl"
+        >
           Les promotions à ne pas manquer
         </h2>
         <p class="text-black-1 max-w-prose leading-8">
@@ -101,14 +107,30 @@
       <div
         class="mt-10 grid grid-cols-2 gap-x-2 gap-y-6 md:grid-cols-3 md:gap-x-3 md:gap-y-8 lg:grid-cols-4"
       >
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        <ProductCard
+          v-for="product in (products ?? []).slice(0, 8)"
+          :key="product.id"
+          :product="product"
+        />
+      </div>
+
+      <div class="mt-10 flex justify-center">
+        <NuxtLink
+          class="btn-cta group bg-red-light text-white transition-colors duration-200 hover:bg-red-dark"
+        >
+          <span class="btn-cta-label transition-colors duration-200"
+            >Faire une commande</span
+          >
+          <span
+            class="btn-cta-circle bg-white flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200"
+          >
+            <img
+              src="/logos/icon-arrow-red.svg"
+              class="btn-cta-arrow w-4 h-4"
+              alt="icon-arrow"
+            />
+          </span>
+        </NuxtLink>
       </div>
     </section>
   </main>
