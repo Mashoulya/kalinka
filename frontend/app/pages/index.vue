@@ -1,7 +1,9 @@
 <!-- pages/index.vue -->
 <script setup lang="ts">
+import type { Product } from "~/types/product";
+
 const config = useRuntimeConfig();
-const { data: products } = await useFetch("/api/products", {
+const { data: products } = await useFetch<Product[]>("/api/products", {
   baseURL: config.apiBase,
 });
 </script>

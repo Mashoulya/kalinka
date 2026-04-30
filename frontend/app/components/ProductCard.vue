@@ -1,17 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-
-interface Product {
-  id: number;
-  name: string;
-  price: string;
-  size: {
-    weightVolume: string | null;
-    unit: string | null;
-  };
-  description: string;
-  photo: string | null;
-}
+import type { Product } from "~/types/product";
 
 defineProps<{
   product: Product;
