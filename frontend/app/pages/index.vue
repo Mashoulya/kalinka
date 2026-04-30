@@ -1,5 +1,11 @@
 <!-- pages/index.vue -->
-<script setup>
+<script setup lang="ts">
+import type { Product } from "~/types/product";
+
+const config = useRuntimeConfig();
+const { data: products } = await useFetch<Product[]>("/api/products", {
+  baseURL: config.apiBase,
+});
 </script>
 
 <template>
@@ -44,23 +50,14 @@
       </div>
 
       <div class="flex justify-between items-center">
-        <NuxtLink
+        <AppButton
           to="/shop"
-          class="btn-cta group bg-white text-red-light transition-colors duration-200 hover:text-red-dark"
+          variant="white-btn"
+          icon-src="/logos/icon-arrow-white.svg"
+          icon-alt="icon-arrow"
         >
-          <span class="btn-cta-label transition-colors duration-200"
-            >Faire une commande</span
-          >
-          <span
-            class="btn-cta-circle bg-red-light flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200 group-hover:bg-red-dark"
-          >
-            <img
-              src="/logos/icon-arrow.svg"
-              class="btn-cta-arrow w-4 h-4"
-              alt="icon-arrow"
-            />
-          </span>
-        </NuxtLink>
+          Faire une commande
+        </AppButton>
 
         <!-- scroll icon -->
 
@@ -79,14 +76,16 @@
     <!-- SECTION PROMO -->
     <section class="bg-white-section px-5 md:px-20">
       <!-- header -->
-      <div class="flex items-center gap-2 pt-20">
+      <div class="flex items-center gap-2 py-10">
         <img src="/logos/icon-section.svg" alt="icon-section" />
         <p class="uppercase text-red-light text-lg font-semibold">
-          Nos meilleures offres du moment
+          <span class="hidden md:inline">Nos meilleures </span>offres du moment
         </p>
       </div>
       <div class="grid items-start gap-8 md:grid-cols-2 md:gap-20 lg:gap-28">
-        <h2 class="max-w-xl text-5xl font-bold leading-tight text-black-2">
+        <h2
+          class="max-w-xl text-3xl font-bold leading-tight text-black-2 md:text-5xl"
+        >
           Les promotions à ne pas manquer
         </h2>
         <p class="text-black-1 max-w-prose leading-8">
@@ -99,16 +98,23 @@
 
       <!-- cards -->
       <div
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-6 md:gap-x-3 md:gap-y-8 mt-10"
+        class="mt-10 grid grid-cols-2 gap-x-2 gap-y-6 md:grid-cols-3 md:gap-x-3 md:gap-y-8 lg:grid-cols-4"
       >
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        <ProductCard
+          v-for="product in (products ?? []).slice(0, 8)"
+          :key="product.id"
+          :product="product"
+        />
+      </div>
+
+      <div class="mt-10 flex justify-center">
+        <AppButton
+          variant="red-btn"
+          icon-src="/logos/icon-arrow-red.svg"
+          icon-alt="icon-arrow"
+        >
+          Faire une commande
+        </AppButton>
       </div>
     </section>
   </main>
