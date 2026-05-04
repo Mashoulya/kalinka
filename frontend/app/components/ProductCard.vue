@@ -19,7 +19,7 @@ const decrement = () => {
 
 
 <template>
-  <div class="w-full max-w-[300px] justify-self-start bg-white">
+  <div class="w-full max-w-[320px] justify-self-start bg-white rounded-[10px]">
     <div class="p-5">
       <!-- image -->
       <div
