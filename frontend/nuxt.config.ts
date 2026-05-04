@@ -50,6 +50,7 @@ export default defineNuxtConfig({
               2: '#222222',
               3: '#0D1216',
               4: '#39393A',
+              5: '#121212',
             },
             white: {
               DEFAULT: '#FFFFFF',
