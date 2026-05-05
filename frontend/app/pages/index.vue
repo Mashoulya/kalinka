@@ -207,7 +207,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
     </section>
 
     <!-- RECIPES SECTION -->
-    <section class="w-full h-[calc(100vh-96px)]">
+    <section class="w-full">
       <div class="grid w-full h-full lg:grid-cols-2">
         <div class="hidden lg:block">
           <img
@@ -302,6 +302,34 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- SECTION REVIEWS -->
+    <section class="py-20 px-5 md:px-20">
+    <!-- header -->
+      <div class="flex items-center gap-2 pb-5">
+        <img src="/logos/icon-section.svg" alt="icon-section" />
+        <p class="uppercase text-red-light text-lg font-semibold">
+          Témoignages de clients
+        </p>
+      </div>
+      <div class="grid items-start gap-8 md:grid-cols-2 md:gap-20 lg:gap-28">
+        <h2 class="max-w-xl text-3xl font-bold leading-tight text-black-2 md:text-5xl">
+          Ce que nos clients disent de nous.
+        </h2>
+        <p class="text-black-1 max-w-prose leading-8 font-medium">
+         Des produits qui ont conquis le cœur d'innombrables clients ! Réputés pour leur qualité, leur fonctionnalité et leur style exceptionnels, ces produits phares représentent le meilleur de notre offre.
+        </p>
+      </div>
+
+      <!-- reviews -->
+       <div>
+        <ReviewCard
+          v-for="index in 3" 
+          :key="index"
+          class=""
+        /> /*affichera 3 cartes*/
+       </div>
     </section>
   </main>
 </template>
