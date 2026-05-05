@@ -207,8 +207,8 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
     </section>
 
     <!-- RECIPES SECTION -->
-    <section class="w-full">
-      <div class="grid w-full lg:grid-cols-2">
+    <section class="w-full h-[calc(100vh-96px)]">
+      <div class="grid w-full h-full lg:grid-cols-2">
         <div class="hidden lg:block">
           <img
             src="/images/boeuf.png"
@@ -218,7 +218,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
         </div>
 
         <div
-          class="bg-black-1 flex flex-col gap-10 px-6 py-12 sm:px-10 sm:py-14 md:px-14 md:py-16 lg:min-h-[730px] lg:justify-between lg:px-16 lg:py-20"
+          class="bg-black-1 flex flex-col px-6 sm:px-10 md:px-14 lg:justify-evenly lg:px-16"
         >
           <div class="flex flex-col gap-8">
             <div class="flex items-center gap-2">
@@ -228,7 +228,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
               </p>
             </div>
 
-            <h2 class="max-w-xl text-4xl font-bold leading-tight text-white md:text-6xl">
+            <h2 class="max-w-xl text-3xl font-bold leading-tight text-white md:text-5xl">
               Nos Recettes traditionnelles à découvrir.
             </h2>
 
@@ -238,7 +238,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
             </p>
           </div>
 
-          <div class="flex flex-col gap-7">
+          <div class="flex flex-col gap-4">
             <div class="flex items-center gap-4" data-index="0">
               <svg class="spinner-svg shrink-0" width="90" height="90">
                 <circle class="spinner-bg" cx="45" cy="45" r="40" stroke="#444" stroke-width="2" fill="none"/>
