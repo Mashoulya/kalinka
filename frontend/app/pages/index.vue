@@ -205,5 +205,103 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
         </AppButton>
       </div>
     </section>
+
+    <!-- RECIPES SECTION -->
+    <section class="w-full">
+      <div class="grid w-full lg:grid-cols-2">
+        <div class="hidden lg:block">
+          <img
+            src="/images/boeuf.png"
+            class="h-full w-full object-cover"
+            alt="Boeuf Stroganoff"
+          />
+        </div>
+
+        <div
+          class="bg-black-1 flex flex-col gap-10 px-6 py-12 sm:px-10 sm:py-14 md:px-14 md:py-16 lg:min-h-[730px] lg:justify-between lg:px-16 lg:py-20"
+        >
+          <div class="flex flex-col gap-8">
+            <div class="flex items-center gap-2">
+              <img src="/logos/icon-section.svg" alt="icon-section" class="h-4 w-4" />
+              <p class="text-sm font-semibold uppercase tracking-[0.2em] text-white">
+                Nos recettes
+              </p>
+            </div>
+
+            <h2 class="max-w-xl text-4xl font-bold leading-tight text-white md:text-6xl">
+              Nos Recettes traditionnelles à découvrir.
+            </h2>
+
+            <p class="max-w-prose text-base font-medium leading-8 text-white">
+              Découvrez nos recettes traditionnelles russes, savoureuses et
+              authentiques. Un voyage culinaire au cœur des saveurs slaves.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-7">
+            <div class="flex items-center gap-4" data-index="0">
+              <svg class="spinner-svg shrink-0" width="90" height="90">
+                <circle class="spinner-bg" cx="45" cy="45" r="40" stroke="#444" stroke-width="2" fill="none"/>
+                <circle class="spinner-fg" cx="45" cy="45" r="40" stroke="#fff" stroke-width="2" fill="none"/>
+                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="text-white">01</text>
+              </svg>
+              <div class="pt-1">
+                <div class="flex items-center gap-3">
+                  <span class="text-xl font-medium text-white">Boeuf Stroganoff</span>
+                  <img src="/logos/flag-ru.svg" alt="flag-ru" class="h-4 w-6" />
+                </div>
+                <p class="text-grey-1">
+                  Bœuf sauté en sauce crémeuse à la moutarde.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4" data-index="1">
+              <svg class="spinner-svg shrink-0" width="90" height="90">
+                <circle class="spinner-bg" cx="45" cy="45" r="40" stroke="#444" stroke-width="2" fill="none"/>
+                <circle class="spinner-fg" cx="45" cy="45" r="40" stroke="#fff" stroke-width="2" fill="none"/>
+                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="text-white">02</text>
+              </svg>
+              <div class="pt-1">
+                <div class="flex items-center gap-3">
+                  <span class="text-xl font-medium text-white">Draniki</span>
+                  <img src="/logos/flag-by.svg" alt="flag-by" class="h-4 w-6" />
+                </div>
+                <p class="text-grey-1">
+                  Galettes de pommes de terre, servies avec crème aigre.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4" data-index="2">
+              <svg class="spinner-svg shrink-0" width="90" height="90">
+                <circle class="spinner-bg" cx="45" cy="45" r="40" stroke="#444" stroke-width="2" fill="none"/>
+                <circle class="spinner-fg" cx="45" cy="45" r="40" stroke="#fff" stroke-width="2" fill="none"/>
+                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="text-white">03</text>
+              </svg>
+              <div class="pt-1">
+                <div class="flex items-center gap-3">
+                  <span class="text-xl font-medium text-white">Bortsch</span>
+                  <img src="/logos/flag-ru.svg" alt="flag-ru" class="h-4 w-6" />
+                </div>
+                <p class="text-grey-1">
+                  Soupe traditionnelle à base de betterave.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <AppButton
+              variant="red-btn"
+              icon-src="/logos/icon-arrow-red.svg"
+              icon-alt="icon-arrow"
+            >
+              Découvrir nos recettes
+            </AppButton>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 </template>
