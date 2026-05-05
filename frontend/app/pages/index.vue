@@ -12,7 +12,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
   <main>
     <!-- SECTION HERO -->
     <section
-      class="w-full flex flex-col justify-end bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/images/image-home.png')] bg-cover bg-center bg-no-repeat z-[-1] px-5 py-[50px] md:px-20"
+      class="w-full flex flex-col justify-end bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/images/image-home.png')] bg-cover bg-center bg-no-repeat z-[-1] py-[50px] px-5 md:px-20"
     >
       <h1 class="text-white text-4xl font-bold mb-5 md:text-7xl">
         Les trésors <br />
@@ -74,9 +74,9 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
     </section>
 
     <!-- SECTION PROMOS -->
-    <section class="bg-white-section px-5 md:px-20">
+    <section class="bg-white-section py-20 px-5 md:px-20">
       <!-- header -->
-      <div class="flex items-center gap-2 pt-20 pb-5">
+      <div class="flex items-center gap-2 pb-5">
         <img src="/logos/icon-section.svg" alt="icon-section" />
         <p class="uppercase text-red-light text-lg font-semibold">
           <span class="hidden md:inline">Nos meilleures </span>offres du moment
@@ -86,7 +86,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
         <h2
           class="max-w-xl text-3xl font-bold leading-tight text-black-2 md:text-5xl"
         >
-          Les promotions à ne pas manquer
+          Les promotions à ne pas manquer.
         </h2>
         <p class="text-black-1 max-w-prose leading-8 font-medium">
           C’est le moment ou jamais de craquer ! Nous avons sélectionné pour
@@ -107,7 +107,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
         />
       </div>
 
-      <div class="py-10 flex justify-center">
+      <div class="pt-10 flex justify-center">
         <AppButton
           variant="red-btn"
           icon-src="/logos/icon-arrow-red.svg"
@@ -119,8 +119,8 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
     </section>
 
     <!-- SECTION SERVICES -->
-    <section class="px-5 md:px-20">
-      <div class="flex items-center justify-center gap-2 pt-20 pb-5">
+    <section class="py-20 px-5 md:px-20">
+      <div class="flex items-center justify-center gap-2 pb-5">
         <img src="/logos/icon-section.svg" alt="icon-section" />
         <p class="uppercase text-red-light text-lg font-semibold">
           Nos services
@@ -162,7 +162,48 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
               </div>
           </div>
       </div>
+    </section>
 
+    <!-- POPULAR PRODUCTS -->
+    <section class="bg-white-section py-20 px-5 md:px-20">
+    <!-- header -->
+      <div class="flex items-center gap-2 pb-5">
+        <img src="/logos/icon-section.svg" alt="icon-section" />
+        <p class="uppercase text-red-light text-lg font-semibold">
+          Les meilleures ventes
+        </p>
+      </div>
+      <div class="grid items-start gap-8 md:grid-cols-2 md:gap-20 lg:gap-28">
+        <h2
+          class="max-w-xl text-3xl font-bold leading-tight text-black-2 md:text-5xl"
+        >
+          Découvrez nos produits les plus appréciés.
+        </h2>
+        <p class="text-black-1 max-w-prose leading-8 font-medium">
+          Des produits qui ont conquis le cœur d'innombrables clients ! Réputés pour leur qualité exceptionnelle, leur fonctionnalité et leur style, ces articles phares représentent le meilleur de notre offre. Découvrez pourquoi ces articles sont si appréciés !
+        </p>
+      </div>
+
+      <!-- cards -->
+      <div
+        class="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4"
+      >
+        <ProductCard
+          v-for="product in (products ?? []).slice(0, 8)"
+          :key="product.id"
+          :product="product"
+        />
+      </div>
+
+      <div class="pt-10 flex justify-center">
+        <AppButton
+          variant="red-btn"
+          icon-src="/logos/icon-arrow-red.svg"
+          icon-alt="icon-arrow"
+        >
+          Voir nos produits vedettes
+        </AppButton>
+      </div>
     </section>
   </main>
 </template>
