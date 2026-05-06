@@ -326,7 +326,7 @@ const { data: reviews} = await useFetch<{id: number; userName: string; rating: n
       </div>
 
       <!-- reviews -->
-      <div class="flex gap-10 w-full">
+      <div class="grid grid-cols-1 gap-10 mt-20 mb-10 w-full md:grid-cols-2 lg:grid-cols-3">
         <ReviewCard
           v-for="review in (reviews ?? [])"
           :key="review.id"
