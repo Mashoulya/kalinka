@@ -1,5 +1,5 @@
 .btn-cta {
-    @apply inline-flex items-center font-bold rounded-full h-12 pl-5 pr-1 self-start gap-3;
+    @apply inline-flex items-center font-bold rounded-full h-12 pl-5 pr-1 gap-3 cursor-pointer;
 }
 
 .btn-cta-label {

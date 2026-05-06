@@ -1,0 +1,21 @@
+<script setup lang="ts">
+    defineProps<{
+        userName: string;
+        rating: number;
+        comment: string;
+    }>();
+</script>
+
+<template>
+    <div class="bg-black-1 w-full h-full p-6 rounded-2xl flex flex-col gap-6">
+        <img src="/logos/icon-quote.svg" alt="quote icon" class="w-14 h-14 object-contain">
+        <p class="text-white">{{ comment }}</p>
+        <div class="bg-black-2 rounded-2xl p-5 flex items-center justify-between mt-auto">
+            <img src="/logos/profile1.jpg" alt="user profile" class="w-[56px] rounded-full">
+            <div>
+                <span>{{ '⭐'.repeat(rating) }}</span>
+                <p class="text-white">{{ userName }}</p>
+            </div>
+        </div>
+    </div>
+</template>

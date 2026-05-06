@@ -1,11 +1,28 @@
 <!-- pages/index.vue -->
 <script setup lang="ts">
+import { ref } from "vue";
 import type { Product } from "~/types/product";
 
 const config = useRuntimeConfig();
 const { data: products } = await useFetch<Product[]>("/api/products", {
   baseURL: config.apiBase,
 });
+const { data: reviews} = await useFetch<{id: number; userName: string; rating: number; comment: string;}[]>("/api/reviews", {
+  baseURL: config.apiBase,
+});
+
+
+// caroussel btn
+const reviewsTrack = ref<HTMLElement | null>(null);
+
+const scrollReviews = (direction: 1 | -1) => {
+  if (!reviewsTrack.value) return;
+
+  reviewsTrack.value.scrollBy({
+    left: direction * reviewsTrack.value.clientWidth,
+    behavior: "smooth",
+  });
+};
 </script>
 
 <template>
@@ -53,7 +70,6 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
         <AppButton
           to="/shop"
           variant="white-btn"
-          icon-src="/logos/icon-arrow-white.svg"
           icon-alt="icon-arrow"
         >
           Faire une commande
@@ -98,7 +114,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
 
       <!-- cards -->
       <div
-        class="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4"
+        class="mt-20 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4"
       >
         <ProductCard
           v-for="product in (products ?? []).slice(0, 8)"
@@ -107,10 +123,9 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
         />
       </div>
 
-      <div class="pt-10 flex justify-center">
+      <div class="mt-10 flex justify-center">
         <AppButton
           variant="red-btn"
-          icon-src="/logos/icon-arrow-red.svg"
           icon-alt="icon-arrow"
         >
           Faire une commande
@@ -186,7 +201,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
 
       <!-- cards -->
       <div
-        class="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4"
+        class="mt-20 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4"
       >
         <ProductCard
           v-for="product in (products ?? []).slice(0, 8)"
@@ -195,10 +210,9 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
         />
       </div>
 
-      <div class="pt-10 flex justify-center">
+      <div class="mt-10 flex justify-center">
         <AppButton
           variant="red-btn"
-          icon-src="/logos/icon-arrow-red.svg"
           icon-alt="icon-arrow"
         >
           Voir nos produits vedettes
@@ -207,7 +221,7 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
     </section>
 
     <!-- RECIPES SECTION -->
-    <section class="w-full h-[calc(100vh-96px)]">
+    <section class="w-full">
       <div class="grid w-full h-full lg:grid-cols-2">
         <div class="hidden lg:block">
           <img
@@ -294,7 +308,6 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
           <div class="pt-2">
             <AppButton
               variant="red-btn"
-              icon-src="/logos/icon-arrow-red.svg"
               icon-alt="icon-arrow"
             >
               Découvrir nos recettes
@@ -303,5 +316,85 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
         </div>
       </div>
     </section>
+
+    <!-- SECTION REVIEWS -->
+    <section class="py-20 px-5 md:px-20">
+    <!-- header -->
+      <div class="flex items-center gap-2 pb-5">
+        <img src="/logos/icon-section.svg" alt="icon-section" />
+        <p class="uppercase text-red-light text-lg font-semibold">
+          Témoignages de clients
+        </p>
+      </div>
+      <div class="grid items-start gap-8 md:grid-cols-2 md:gap-20 lg:gap-28">
+        <h2 class="max-w-xl text-3xl font-bold leading-tight text-black-2 md:text-5xl">
+          Ce que nos clients disent de nous.
+        </h2>
+        <p class="text-black-1 max-w-prose leading-8 font-medium">
+         Des produits qui ont conquis le cœur d'innombrables clients ! Réputés pour leur qualité, leur fonctionnalité et leur style exceptionnels, ces produits phares représentent le meilleur de notre offre.
+        </p>
+      </div>
+
+      <!-- caroussel reviews -->
+     
+        <!-- reviews -->
+        <div ref="reviewsTrack" class="reviews-track mt-20 flex w-full gap-10 overflow-x-auto">
+          <div
+            v-for="review in (reviews ?? [])"
+            :key="review.id"
+            class="review-slide"
+          >
+            <ReviewCard
+              :user-name="review.userName"
+              :rating="review.rating"
+              :comment="review.comment"
+            />
+          </div>
+        </div>
+
+        <!-- navigation buttons -->
+        <div class="mt-10 flex flex-col items-center gap-6 md:flex-row md:justify-between">
+          <div class="flex w-full justify-between md:contents">
+            <button type="button" @click="scrollReviews(-1)">
+              <img src="/logos/left-arrow.svg" alt="caroussel-prev" class="w-12">
+            </button>
+            <button type="button" @click="scrollReviews(1)" class="md:order-last">
+              <img src="/logos/right-arrow.svg" alt="caroussel-next" class="w-12">
+            </button>
+          </div>
+          <AppButton variant="black-btn" icon-alt="icon-arrow">
+            Voir nos avis sur Google
+          </AppButton>
+        </div>
+   
+    </section>
   </main>
 </template>
+
+<style scoped>
+.reviews-track {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.reviews-track::-webkit-scrollbar {
+  display: none;
+}
+
+.review-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 768px) {
+  .review-slide {
+    flex-basis: calc((100% - 2.5rem) / 2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .review-slide {
+    flex-basis: calc((100% - 5rem) / 3);
+  }
+}
+</style>
