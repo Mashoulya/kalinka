@@ -13,7 +13,7 @@
         <div class="bg-black-2 rounded-2xl p-5 flex items-center justify-between">
             <img src="/logos/profile1.jpg" alt="user profile" class="w-[56px] rounded-full">
             <div>
-                <span>⭐⭐⭐⭐⭐</span>
+                <span>{{ rating }}</span>
                 <p class="text-white">{{ userName }}</p>
             </div>
         </div>
