@@ -6,6 +6,9 @@ const config = useRuntimeConfig();
 const { data: products } = await useFetch<Product[]>("/api/products", {
   baseURL: config.apiBase,
 });
+const { data: reviews} = await useFetch<{id: number; userName: string; rating: number; comment: string;}[]>("/api/reviews", {
+  baseURL: config.apiBase,
+});
 </script>
 
 <template>
@@ -323,13 +326,15 @@ const { data: products } = await useFetch<Product[]>("/api/products", {
       </div>
 
       <!-- reviews -->
-       <div>
+      <div class="flex gap-10 w-full">
         <ReviewCard
-          v-for="index in 3" 
-          :key="index"
-          class=""
-        /> /*affichera 3 cartes*/
-       </div>
+          v-for="review in (reviews ?? [])"
+          :key="review.id"
+          :user-name="review.userName"
+          :rating="review.rating"
+          :comment="review.comment"
+        />
+      </div>
     </section>
   </main>
 </template>
