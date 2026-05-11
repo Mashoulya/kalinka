@@ -61,6 +61,7 @@ export default defineNuxtConfig({
             },
             grey: {
               1: '#A6A6A8',
+              2: '#ADB2BD',
             }
           }
         }
