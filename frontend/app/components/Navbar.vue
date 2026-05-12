@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
+const { isAuthenticated } = useAuth();
 
 const route = useRoute();
 
@@ -36,6 +37,17 @@ const toggleMenu = () => {
 const closeMenu = () => {
   isMenuOpen.value = false;
 };
+
+
+// vérifier si l'utilisateur est connecté avant d'accéder à son profil
+const handleProfileClick = async () => {
+  const authenticated = await isAuthenticated()
+  if (!authenticated) {
+    navigateTo('/login')
+  } else {
+    navigateTo('/profile')
+  }
+}
 </script>
 
 <template>
@@ -100,7 +112,7 @@ const closeMenu = () => {
             />
           </NuxtLink>
 
-          <NuxtLink to="/profile" @click="closeMenu">
+          <NuxtLink to="/profile" @click="handleProfileClick">
             <img
               src="/logos/icon-user.svg"
               alt="logo-profile"
