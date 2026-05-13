@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
+const { isAuthenticated } = useAuth();
 
 const route = useRoute();
 
@@ -36,6 +37,17 @@ const toggleMenu = () => {
 const closeMenu = () => {
   isMenuOpen.value = false;
 };
+
+
+// vérifier si l'utilisateur est connecté avant d'accéder à son profil
+const handleProfileClick = async () => {
+  const authenticated = await isAuthenticated()
+  if (!authenticated) {
+    navigateTo('/login')
+  } else {
+    navigateTo('/profile')
+  }
+}
 </script>
 
 <template>
@@ -46,12 +58,12 @@ const closeMenu = () => {
     >
       <div class="flex justify-start gap-10 lg:px-20">
         <div class="flex items-center gap-2">
-          <img src="/logos/tel.png" alt="logo-phone" />
+          <img src="/logos/tel.png" alt="" />
           <span>0205040102</span>
         </div>
 
         <div class="flex items-center gap-2">
-          <img src="/logos/gps-marker.png" alt="logo-location" />
+          <img src="/logos/gps-marker.png" alt="" />
           <span>Saint-Jacques-de-la-Lande</span>
         </div>
       </div>
@@ -59,12 +71,12 @@ const closeMenu = () => {
       <div class="flex items-center gap-3 md:px-20">
         <img
           src="/logos/icon-fb.svg"
-          alt="logo-facebook"
+          alt=""
           class="h-4 w-4 brightness-0 invert"
         />
         <img
           src="/logos/icon-insta.svg"
-          alt="logo-instagram"
+          alt=""
           class="h-4 w-4 brightness-0 invert"
         />
       </div>
@@ -78,7 +90,7 @@ const closeMenu = () => {
         <NuxtLink to="/" @click="closeMenu">
           <img
             src="/logos/logo-kalinka-blanc.png"
-            alt="logo"
+            alt="Kalinka"
             class="h-6 md:h-7"
           />
         </NuxtLink>
@@ -92,18 +104,18 @@ const closeMenu = () => {
         </nav>
 
         <div class="flex items-center gap-4 text-xl md:order-3">
-          <NuxtLink to="/cart" class="relative" @click="closeMenu">
+          <NuxtLink to="/cart" class="relative" aria-label="Voir le panier" @click="closeMenu">
             <img
               src="/logos/icon-cart.svg"
-              alt="logo-cart"
+              alt=""
               class="h-8 w-8 md:h-8 md:w-8 brightness-0 invert"
             />
           </NuxtLink>
 
-          <NuxtLink to="/profile" @click="closeMenu">
+          <NuxtLink to="/profile" aria-label="Voir mon profil" @click="handleProfileClick">
             <img
               src="/logos/icon-user.svg"
-              alt="logo-profile"
+              alt=""
               class="h-8 w-8 md:h-8 md:w-8 brightness-0 invert"
             />
           </NuxtLink>
@@ -116,7 +128,7 @@ const closeMenu = () => {
           >
             <img
               src="/logos/icon-burger.svg"
-              :alt="isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
+              alt=""
               class="h-8 w-8 brightness-0 invert"
             />
           </button>
@@ -143,7 +155,7 @@ const closeMenu = () => {
             >
               <img
                 src="/logos/icon-search.svg"
-                alt="icon-search"
+                alt=""
                 class="h-10 w-10"
               />
             </button>
@@ -166,7 +178,7 @@ const closeMenu = () => {
             aria-label="Fermer le menu"
             @click="closeMenu"
           >
-            <img src="/logos/icon-close.svg" alt="Fermer" class="h-9 w-9" />
+            <img src="/logos/icon-close.svg" alt="" class="h-9 w-9" />
           </button>
         </div>
 
@@ -185,12 +197,12 @@ const closeMenu = () => {
           <div class="flex items-center gap-6">
             <img
               src="/logos/icon-fb.svg"
-              alt="logo-facebook"
+              alt=""
               class="h-5 w-5 brightness-0 invert"
             />
             <img
               src="/logos/icon-insta.svg"
-              alt="logo-instagram"
+              alt=""
               class="h-5 w-5 brightness-0 invert"
             />
           </div>

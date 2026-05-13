@@ -19,7 +19,7 @@ const decrement = () => {
 
 
 <template>
-  <div class="w-full max-w-[320px] justify-self-start bg-white rounded-[10px]">
+  <article class="w-full max-w-[320px] justify-self-start bg-white rounded-[10px]">
     <div class="p-5">
       <!-- image -->
       <div
@@ -43,6 +43,8 @@ const decrement = () => {
           <button
             @click="decrement"
             class="text-white text-lg font-bold w-6 flex items-center justify-center"
+            type="button"
+            aria-label="Diminuer la quantité"
           >
             −
           </button>
@@ -52,16 +54,18 @@ const decrement = () => {
           <button
             @click="increment"
             class="text-white text-lg font-bold w-6 flex items-center justify-center"
+            type="button"
+            aria-label="Augmenter la quantité"
           >
             +
           </button>
         </div>
-        <NuxtLink>
-          <img src="/logos/icon-product-detail.svg" alt="icon-product-detail" />
+        <NuxtLink aria-label="Voir le détail du produit" >
+          <img src="/logos/icon-product-detail.svg" alt="" />
         </NuxtLink>
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <style scoped>
