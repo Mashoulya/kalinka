@@ -84,18 +84,18 @@ const submitRegister = async () => {
     }
 
     try {
-        await $fetch('/api/register', {
+        const response: { message?: string } = await $fetch('/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: payload
+            body: JSON.stringify(payload)
         })
-
-        errorMessage.value = ''
-    } catch (error) {
-        const apiError = error as { data?: { error?: string; errors?: string }; message?: string }
-        errorMessage.value = apiError.data?.error || apiError.data?.errors || apiError.message || 'Une erreur est survenue lors de l\'inscription.'
+        if (response.message) {
+            navigateTo({ path: '/register-success', query: { email: formData.email } })
+        }
+    } catch (error: any) {
+        errorMessage.value = error.data?.message || "Une erreur est survenue lors de l'inscription. Veuillez réessayer plus tard."
     }
 }
 </script>

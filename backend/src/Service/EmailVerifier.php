@@ -3,34 +3,27 @@ namespace App\Service;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EmailVerifier
 {
     public function __construct(
         private SendMailService $sendMailService,
         private EntityManagerInterface $entityManager,
-        private UrlGeneratorInterface $urlGenerator,
         private string $appSecret,
         private string $fromAddress = 'no-reply@kalinka.com',
-        private string $appBaseUrl = 'http://localhost'
+        private string $frontendBaseUrl = 'http://localhost:3000'
     ) {}
 
-    public function sendEmailConfirmation(string $verifyEmailRouteName, User $user): void
+    public function sendEmailConfirmation(User $user): void
     {
         $expires = time() + 86400;
         $signature = $this->createSignature($user, $expires);
 
-        $path = $this->urlGenerator->generate(
-            $verifyEmailRouteName,
-            [
-                'id' => $user->getId(),
-                'expires' => $expires,
-                'signature' => $signature,
-            ],
-            UrlGeneratorInterface::ABSOLUTE_PATH
-        );
-        $signedUrl = rtrim($this->appBaseUrl, '/') . $path;
+        $signedUrl = rtrim($this->frontendBaseUrl, '/') . '/verify-email?' . http_build_query([
+            'id' => $user->getId(),
+            'expires' => $expires,
+            'signature' => $signature,
+        ]);
 
         $html = <<<HTML
             <p>Bienvenue sur Epicerie Kalinka.</p>
@@ -58,16 +51,16 @@ class EmailVerifier
         $id = isset($params['id']) ? (int) $params['id'] : null;
 
         if ($id !== $user->getId()) {
-            throw new \RuntimeException('Invalid verification user.');
+            throw new \RuntimeException('Utilisateur de vérification invalide.');
         }
 
         if ($expires < time()) {
-            throw new \RuntimeException('Verification link has expired.');
+            throw new \RuntimeException('Le lien de vérification a expiré.');
         }
 
         $expectedSignature = $this->createSignature($user, $expires);
         if (!hash_equals($expectedSignature, $signature)) {
-            throw new \RuntimeException('Invalid verification signature.');
+            throw new \RuntimeException('Signature de vérification invalide.');
         }
 
         $user->setIsVerified(true);

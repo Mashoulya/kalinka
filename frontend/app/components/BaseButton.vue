@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{
     <NuxtLink
         v-if="props.to"
         :to="props.to"
-        class="inline-flex w-full items-center justify-center rounded-full bg-green-light font-medium px-4 py-4 text-white"
+        class="inline-flex items-center justify-center rounded-full bg-green-light font-medium px-4 py-4 text-white"
         v-bind="$attrs"
     >
         <slot />
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<{
     <button
         v-else
         :type="props.type"
-        class="inline-flex w-full items-center justify-center rounded-full bg-green-light font-medium px-4 py-4 text-white"
+        class="inline-flex items-center justify-center rounded-full bg-green-light font-medium px-4 py-4 text-white"
         v-bind="$attrs"
     >
         <slot />
