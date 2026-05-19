@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { resolveOptions } from 'vue-router/dist/unplugin/index.cjs';
+defineOptions({
+    inheritAttrs: false
+})
 
 const props = withDefaults(defineProps<{
     to?: string
@@ -11,11 +13,23 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-    <component
-    :is = "props.to ? 'NuxtLink' : 'button'"
-    v-bind="props.to ? {to: props.to} : {type: props.type}"
-    class="bg-green-light text-white py-4 px-4 rounded-full"
+    <!-- Lien vers une page -->
+    <NuxtLink
+        v-if="props.to"
+        :to="props.to"
+        class="inline-flex items-center justify-center rounded-full bg-green-light font-medium px-4 py-4 text-white"
+        v-bind="$attrs"
     >
         <slot />
-    </component>
+    </NuxtLink>
+
+    <!-- Bouton de soumission ou action -->
+    <button
+        v-else
+        :type="props.type"
+        class="inline-flex items-center justify-center rounded-full bg-green-light font-medium px-4 py-4 text-white"
+        v-bind="$attrs"
+    >
+        <slot />
+    </button>
 </template>

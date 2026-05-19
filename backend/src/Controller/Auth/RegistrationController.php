@@ -88,11 +88,18 @@ final class RegistrationController extends AbstractController
             ], JsonResponse::HTTP_CONFLICT);
         }
 
-        $emailVerifier->sendEmailConfirmation('api_verify_email', $user);
+        try {
+            $emailVerifier->sendEmailConfirmation($user);
 
-        return new JsonResponse([
-            'message' => 'User registered successfully. Please verify your email.',
-        ], JsonResponse::HTTP_CREATED);
+            return new JsonResponse([
+                'message' => 'User registered successfully. Please verify your email.',
+            ], JsonResponse::HTTP_CREATED);
+        } catch (\Throwable) {
+            // Registration is successful even if SMTP is temporarily unavailable.
+            return new JsonResponse([
+                'message' => 'User registered successfully, but verification email could not be sent right now.',
+            ], JsonResponse::HTTP_CREATED);
+        }
     }
 
     #[Route('/api/verify/email', name: 'api_verify_email', methods: ['GET'])]
@@ -117,6 +124,6 @@ final class RegistrationController extends AbstractController
             return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return new JsonResponse(['message' => 'Email verified successfully.'], JsonResponse::HTTP_OK);
+        return new JsonResponse(['message' => 'Email vérifié avec succès.'], JsonResponse::HTTP_OK);
     }
 }
