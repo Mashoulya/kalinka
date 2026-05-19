@@ -12,7 +12,8 @@ class EmailVerifier
         private EntityManagerInterface $entityManager,
         private UrlGeneratorInterface $urlGenerator,
         private string $appSecret,
-        private string $fromAddress = 'no-reply@kalinka.com'
+        private string $fromAddress = 'no-reply@kalinka.com',
+        private string $appBaseUrl = 'http://localhost'
     ) {}
 
     public function sendEmailConfirmation(string $verifyEmailRouteName, User $user): void
@@ -20,15 +21,16 @@ class EmailVerifier
         $expires = time() + 86400;
         $signature = $this->createSignature($user, $expires);
 
-        $signedUrl = $this->urlGenerator->generate(
+        $path = $this->urlGenerator->generate(
             $verifyEmailRouteName,
             [
                 'id' => $user->getId(),
                 'expires' => $expires,
                 'signature' => $signature,
             ],
-            UrlGeneratorInterface::ABSOLUTE_URL
+            UrlGeneratorInterface::ABSOLUTE_PATH
         );
+        $signedUrl = rtrim($this->appBaseUrl, '/') . $path;
 
         $html = <<<HTML
             <p>Bienvenue sur Epicerie Kalinka.</p>
