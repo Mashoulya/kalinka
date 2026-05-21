@@ -8,11 +8,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class LoginController extends AbstractController
 {
-    #[Route('/api/login', name: 'api_login')]
-    public function index(): JsonResponse
+    #[Route('/api/login', name: 'api_login', methods: ['POST'])]
+    public function index(): never
     {
-        return new JsonResponse([
-            'message' => 'Please log in to access this resource.'
-        ], JsonResponse::HTTP_UNAUTHORIZED);
+        throw new \Exception('This should never be reached.');
     }
 }
