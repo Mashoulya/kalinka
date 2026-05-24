@@ -15,12 +15,18 @@ security:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
-        main:
-            pattern: ^/api
+        login:
+            pattern: ^/api/login
+            stateless: true
             provider: app_user_provider
             custom_authenticators:
                 - App\Security\AppCustomAuthenticator
+
+        main:
+            pattern: ^/api
             stateless: true
+            provider: app_user_provider
+            jwt: ~
 
             # Activate different ways to authenticate:
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -35,6 +41,7 @@ security:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/verify/email, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         # A VOIR LES ROUTES ACCESSIBLES SANS AUTHENTIFICATION
 
 when@test:
