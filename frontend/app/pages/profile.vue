@@ -42,12 +42,12 @@ onMounted(() => {
 </script>
 
 <template>
-    <section class="py-10 px-5 md:px-20 md:py-20">
+    <section class="py-10 space-y-10 px-5 md:px-20 md:py-20 md:space-y-20">
         <h1 class="text-red-light text-3xl font-bold text-center mb-14 md:text-5xl">Mon compte</h1>
         <!-- commandes -->
-        <div class="flex justify-between items-center bg-green-light/5 border border-black/25 rounded-lg p-10 mb-10">
-            <span class="font-semibold">Mes commandes</span>
-            <span class="font-semibold">{{ orders.length }}/3</span>
+        <div class="flex justify-between items-center bg-green-light/5 border border-black/25 rounded-lg p-10">
+            <span class="font-semibold text-lg">Mes commandes</span>
+            <span class="font-semibold text-lg">{{ orders.length }}/3</span>
         </div>
 
         <p v-if="isLoading" class="mb-6 font-medium">Chargement des commandes...</p>
@@ -81,15 +81,67 @@ onMounted(() => {
         </table>
 
         <!-- identifiants -->
-        <div class="flex justify-between items-center bg-green-light/5 border border-black/25 rounded-lg p-10 mb-10">
-            <span class="font-semibold">Mes identifiants</span>
-            <span class="font-semibold">2/3</span>
+        <div class="flex justify-between items-center bg-green-light/5 border border-black/25 rounded-lg p-10">
+            <span class="font-semibold text-lg">Mes identifiants</span>
+            <span class="font-semibold text-lg">2/3</span>
         </div>
 
+        <form class="grid grid-cols-1 gap-x-6 gap-y-4 items-center md:grid-cols-[200px_minmax(0,320px)_auto]">
+            <label for="email" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-1">Adresse email *</label>
+            <input type="email" id="email" name="email" placeholder="Email" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-1">
+
+            <label for="password" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-2">Mot de passe *</label>
+            <input type="password" id="password" name="password" placeholder="Mot de passe (8 caractères minimum)" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-2">
+            <button type="button" class="justify-self-start text-red-light font-semibold underline underline-offset-2 md:col-start-3 md:row-start-2 md:self-center">Modifier le mot de passe</button>
+        </form>
+
         <!-- coordonnées -->
-        <div class="flex justify-between items-center bg-green-light/5 border border-black/25 rounded-lg p-10 mb-10">
-            <span class="font-semibold">Mes coordonnées</span>
-            <span class="font-semibold">3/3</span>
+        <div class="flex justify-between items-center bg-green-light/5 border border-black/25 rounded-lg p-10">
+            <span class="font-semibold text-lg">Mes coordonnées</span>
+            <span class="font-semibold text-lg">3/3</span>
         </div>
+        
+        <form class="grid grid-cols-1 gap-x-6 gap-y-4 items-center md:grid-cols-[200px_minmax(0,320px)_auto]">
+            <label class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-1" for="title-mrs">Civilité *</label>
+            <div class="inline-flex w-full rounded-lg border border-black/25 p-1 md:col-start-2 md:row-start-1">
+                <label class="flex-1">
+                    <input type="radio" id="title-mrs" name="title" value="Mrs" class="peer sr-only py-3" checked>
+                    <span class="block w-full cursor-pointer rounded-md px-2 py-3 text-center font-medium leading-none text-black transition peer-checked:bg-green-light peer-checked:text-white">Madame</span>
+                </label>
+                <label class="flex-1">
+                    <input type="radio" id="title-mr" name="title" value="Mr" class="peer sr-only py-3">
+                    <span class="block w-full cursor-pointer rounded-md px-2 py-3 text-center font-medium leading-none text-black transition peer-checked:bg-green-light peer-checked:text-white">Monsieur</span>
+                </label>
+                <label class="flex-1">
+                    <input type="radio" id="title-other" name="title" value="Other" class="peer sr-only py-3">
+                    <span class="block w-full cursor-pointer rounded-md px-2 py-3 text-center font-medium leading-none text-black transition peer-checked:bg-green-light peer-checked:text-white">Autres</span>
+                </label>
+            </div>
+
+            <!-- Nom -->
+            <label for="lastName" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-2">Nom *</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Nom" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-2">
+
+            <!-- Prénom -->
+            <label for="firstName" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-3">Prénom *</label>
+            <input type="text" id="firstName" name="firstName" placeholder="Prénom" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-3">
+
+            <!-- Date de naissance -->
+            <label class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-4">Date de naissance *</label>
+            <BaseDateInput name="birthDate" class="md:col-start-2 md:row-start-4" />
+
+            <!-- Code postal -->
+            <label for="postalCode" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-5">Code postal *</label>
+            <input type="text" id="postalCode" name="postalCode" placeholder="Code postal" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-5">
+
+            <!-- Ville -->
+            <label for="city" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-6">Ville *</label>
+            <input type="text" id="city" name="city" placeholder="Ville" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-6">
+
+            <!-- Téléphone -->
+            <label for="phone" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-7">Téléphone *</label>
+            <input type="tel" id="phone" name="phone" placeholder="Numéro de téléphone" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-7">
+            <button type="button" class="text-red-light font-semibold underline underline-offset-2 md:col-start-3 md:row-start-7 md:self-center md:justify-self-start">Modifier mes coordonnées</button>
+        </form>
     </section>
 </template>

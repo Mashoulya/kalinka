@@ -43,7 +43,7 @@ watch([day, month, year], ([d, m, y]) => {
 </script>
 
 <template>
-  <div class="flex justify-between gap-3 w-full max-w-full">
+  <div class="flex justify-start md:justify-between gap-3 w-full max-w-full">
     <select
       v-model="day"
       class="rounded-lg border border-black/25 outline-none py-3 px-2 text-sm bg-white appearance-none w-full max-w-[90px] font-semibold placeholder:font-semibold focus:ring-2 focus:ring-green-light"
