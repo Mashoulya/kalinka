@@ -4,6 +4,6 @@ namespace App\Enum;
 
 enum Status: string
 {
-    case Preparing = 'Preparing';
-    case Paid = 'Paid';
+    case Preparing = 'preparing';
+    case Paid = 'paid';
 }
