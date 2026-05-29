@@ -3,7 +3,7 @@ definePageMeta({
     middleware: 'auth'
 })
 
-// ORDERS
+// COMMANDES
 type OrderItem = {
     id: number
     totalPrice: string
@@ -95,9 +95,38 @@ async function fetchUserInfo() {
 onMounted(() => {
     fetchUserInfo()
 })
+
+// Password change
+
+const oldPassword = ref('')
+const newPassword = ref('')
+const confirmPassword = ref('')
+
+const showPasswordModal = ref(false)
+
+
 </script>
 
 <template>
+<!-- modale modifier mdp -->
+
+<!-- Overlay et modale pour modification du mot de passe -->
+<div class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 h-screen">
+    <div class="bg-white rounded-lg p-8 w-full max-w-md mx-4">
+        <h2 class="text-red-light font-bold text-3xl md:text-4xl">Modification du mot de passe</h2>
+        <form class="">
+            <label for="oldPassword" class="font-semibold text-lg md:text-left">Mot de passe actuel *</label>
+            <input type="password" id="oldPassword" name="oldPassword" placeholder="Ancien mot de passe" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
+
+            <label for="newPassword" class="font-semibold text-lg md:text-left">Nouveau mot de passe *</label>
+            <input type="password" id="newPassword" name="newPassword" placeholder="Nouveau mot de passe" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
+
+            <label for="confirmPassword" class="font-semibold text-lg md:text-left">Confirmer le mot de passe *</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmer le mot de passe" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
+        </form>
+    </div>
+</div>
+
     <section class="py-10 space-y-10 px-5 md:px-20 md:py-20 md:space-y-20">
         <h1 class="text-red-light text-3xl font-bold text-center mb-14 md:text-5xl">Mon compte</h1>
         <!-- commandes -->
