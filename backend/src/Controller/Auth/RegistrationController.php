@@ -40,14 +40,14 @@ final class RegistrationController extends AbstractController
 
         if ($userRepository->findOneBy(['phone' => $phone]) instanceof User) {
             return new JsonResponse([
-                'error' => 'Phone already in use.',
+                'error' => 'Téléphone déjà utilisé.',
             ], JsonResponse::HTTP_CONFLICT);
         }
 
         $gender = Gender::tryFrom((string) ($data['title'] ?? ''));
         if ($gender === null) {
             return new JsonResponse([
-                'error' => 'Invalid title. Allowed values: Mr, Mrs, Other.',
+                'error' => 'Titre invalide. Valeurs autorisées : Mr, Mrs, Other.',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -55,7 +55,7 @@ final class RegistrationController extends AbstractController
         $birthDate = \DateTimeImmutable::createFromFormat('!Y-m-d', $birthDateInput);
         if ($birthDate === false || $birthDate->format('Y-m-d') !== $birthDateInput) {
             return new JsonResponse([
-                'error' => 'Invalid birthDate. Expected format: YYYY-MM-DD.',
+                'error' => 'Date de naissance invalide. Format attendu : YYYY-MM-DD.',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -84,7 +84,7 @@ final class RegistrationController extends AbstractController
             $entityManager->flush();
         } catch (UniqueConstraintViolationException) {
             return new JsonResponse([
-                'error' => 'Email or phone already in use.',
+                'error' => 'Email ou téléphone déjà utilisé.',
             ], JsonResponse::HTTP_CONFLICT);
         }
 
@@ -92,12 +92,12 @@ final class RegistrationController extends AbstractController
             $emailVerifier->sendEmailConfirmation($user);
 
             return new JsonResponse([
-                'message' => 'User registered successfully. Please verify your email.',
+                'message' => 'Utilisateur enregistré avec succès. Veuillez vérifier votre email.',
             ], JsonResponse::HTTP_CREATED);
         } catch (\Throwable) {
             // Registration is successful even if SMTP is temporarily unavailable.
             return new JsonResponse([
-                'message' => 'User registered successfully, but verification email could not be sent right now.',
+                'message' => 'Utilisateur enregistré avec succès, mais l\'email de vérification n\'a pas pu être envoyé pour le moment.',
             ], JsonResponse::HTTP_CREATED);
         }
     }
@@ -110,12 +110,12 @@ final class RegistrationController extends AbstractController
     ): JsonResponse {
         $id = $request->query->getInt('id');
         if ($id <= 0) {
-            return new JsonResponse(['error' => 'Missing or invalid user id.'], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'ID utilisateur manquant ou invalide.'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $user = $userRepository->find($id);
         if (!$user instanceof User) {
-            return new JsonResponse(['error' => 'User not found.'], JsonResponse::HTTP_NOT_FOUND);
+            return new JsonResponse(['error' => 'Utilisateur introuvable.'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         try {
