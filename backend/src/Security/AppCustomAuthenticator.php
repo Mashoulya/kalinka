@@ -50,6 +50,7 @@ class AppCustomAuthenticator extends AbstractAuthenticator
         $user = $token->getUser();
         if ($user instanceof User && !$user->isVerified()) {
             return new JsonResponse([
+                'message' => 'Veuillez verifier votre email avant de vous connecter.',
                 'error' => 'Please verify your email before login.'
             ], Response::HTTP_FORBIDDEN);
         }
@@ -64,6 +65,7 @@ class AppCustomAuthenticator extends AbstractAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         return new JsonResponse([
+            'message' => 'Email ou mot de passe incorrect.',
             'error' => 'Email or password is incorrect.'
             ], Response::HTTP_UNAUTHORIZED);
     }

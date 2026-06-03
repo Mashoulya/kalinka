@@ -26,8 +26,8 @@ async function handleLogin() {
         }
 
         errorMessage.value = 'Reponse de connexion invalide.'
-    }catch(error) {
-        errorMessage.value = 'Email ou mot de passe incorrect.'
+    } catch (error: any) {
+        errorMessage.value = error?.data?.message || error?.data?.error || 'Email ou mot de passe incorrect.'
     } finally {
         isLoading.value = false
     }
@@ -50,6 +50,10 @@ async function handleLogin() {
                     <input v-model="password" type="password" id="password" placeholder="Mot de passe" class="border border-black/25 rounded-md py-2 px-3">
 
                     <NuxtLink class="text-sm text-end font-medium text-red-light mb-5">Mot de passe oublié ?</NuxtLink>
+
+                    <p v-if="errorMessage" class="text-sm text-red-light mb-3">
+                        {{ errorMessage }}
+                    </p>
 
                     <BaseButton type="submit" class="mt-auto" :disabled="isLoading">
                         Se connecter

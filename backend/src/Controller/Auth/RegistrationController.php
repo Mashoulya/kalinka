@@ -28,26 +28,31 @@ final class RegistrationController extends AbstractController
     ): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+        if (!is_array($data)) {
+            return new JsonResponse([
+                'message' => 'Corps JSON invalide.',
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
 
-        $email = (string) ($data['email'] ?? '');
-        $phone = (string) ($data['phone'] ?? '');
+        $email = trim((string) ($data['email'] ?? ''));
+        $phone = trim((string) ($data['phone'] ?? ''));
 
         if ($userRepository->findOneBy(['email' => $email]) instanceof User) {
             return new JsonResponse([
-                'error' => 'Email already in use.',
+                'message' => 'Email already in use.',
             ], JsonResponse::HTTP_CONFLICT);
         }
 
         if ($userRepository->findOneBy(['phone' => $phone]) instanceof User) {
             return new JsonResponse([
-                'error' => 'Téléphone déjà utilisé.',
+                'message' => 'Téléphone déjà utilisé.',
             ], JsonResponse::HTTP_CONFLICT);
         }
 
         $gender = Gender::tryFrom((string) ($data['title'] ?? ''));
         if ($gender === null) {
             return new JsonResponse([
-                'error' => 'Titre invalide. Valeurs autorisées : Mr, Mrs, Other.',
+                'message' => 'Titre invalide. Valeurs autorisées : Mr, Mrs, Other.',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -55,20 +60,21 @@ final class RegistrationController extends AbstractController
         $birthDate = \DateTimeImmutable::createFromFormat('!Y-m-d', $birthDateInput);
         if ($birthDate === false || $birthDate->format('Y-m-d') !== $birthDateInput) {
             return new JsonResponse([
-                'error' => 'Date de naissance invalide. Format attendu : YYYY-MM-DD.',
+                'message' => 'Date de naissance invalide. Format attendu : YYYY-MM-DD.',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $user = new User();
         $user->setTitle($gender);
-        $user->setLastName($data['lastName']);
-        $user->setFirstName($data['firstName']);
+        $user->setLastName(trim((string) ($data['lastName'] ?? '')));
+        $user->setFirstName(trim((string) ($data['firstName'] ?? '')));
         $user->setBirthDate($birthDate);
-        $user->setPostalCode($data['postalCode']);
-        $user->setCity($data['city']);  
+        $user->setPostalCode(trim((string) ($data['postalCode'] ?? '')));
+        $user->setCity(trim((string) ($data['city'] ?? '')));
         $user->setPhone($phone);
         $user->setEmail($email);
-        $user->setPassword($passwordHasher->hashPassword($user, $data['password']));
+        $password = (string) ($data['password'] ?? '');
+        $user->setPassword($passwordHasher->hashPassword($user, $password));
 
         $user->setRoles(['ROLE_USER']);
         $user->setCreatedAt(new \DateTimeImmutable());
@@ -76,7 +82,16 @@ final class RegistrationController extends AbstractController
 
         $errors = $validator->validate($user);
         if (count($errors) > 0) {
-            return new JsonResponse(['errors' => (string) $errors], JsonResponse::HTTP_BAD_REQUEST);
+            $formattedErrors = [];
+            foreach ($errors as $error) {
+                $field = (string) $error->getPropertyPath();
+                $formattedErrors[] = $field . ': ' . $error->getMessage();
+            }
+
+            return new JsonResponse([
+                'message' => 'Validation échouée.',
+                'errors' => $formattedErrors,
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         try {
@@ -84,7 +99,7 @@ final class RegistrationController extends AbstractController
             $entityManager->flush();
         } catch (UniqueConstraintViolationException) {
             return new JsonResponse([
-                'error' => 'Email ou téléphone déjà utilisé.',
+                'message' => 'Email ou téléphone déjà utilisé.',
             ], JsonResponse::HTTP_CONFLICT);
         }
 
@@ -110,18 +125,18 @@ final class RegistrationController extends AbstractController
     ): JsonResponse {
         $id = $request->query->getInt('id');
         if ($id <= 0) {
-            return new JsonResponse(['error' => 'ID utilisateur manquant ou invalide.'], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['message' => 'ID utilisateur manquant ou invalide.'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $user = $userRepository->find($id);
         if (!$user instanceof User) {
-            return new JsonResponse(['error' => 'Utilisateur introuvable.'], JsonResponse::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'Utilisateur introuvable.'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         try {
             $emailVerifier->handleEmailConfirmation($request->getUri(), $user);
         } catch (\RuntimeException $e) {
-            return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['message' => $e->getMessage()], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         return new JsonResponse(['message' => 'Email vérifié avec succès.'], JsonResponse::HTTP_OK);

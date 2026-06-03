@@ -344,7 +344,7 @@ async function updateProfile() {
                 :disabled="isUpdatingProfile"
                 class="text-red-light font-semibold underline underline-offset-2 md:col-start-3 md:row-start-7 md:self-center md:justify-self-start disabled:opacity-50 disabled:cursor-not-allowed"
             >
-                {{ isUpdatingProfile ? 'Enregistrement...' : 'Modifier mes coordonnées' }}
+                {{ isUpdatingProfile ? 'Enregistrement...' : 'Enregistrer les modifications' }}
             </button>
 
             <p v-if="profileError" class="text-sm text-red-light md:col-start-2 md:row-start-8">{{ profileError }}</p>

@@ -95,7 +95,14 @@ const submitRegister = async () => {
             navigateTo({ path: '/register-success', query: { email: formData.email } })
         }
     } catch (error: any) {
-        errorMessage.value = error.data?.message || "Une erreur est survenue lors de l'inscription. Veuillez réessayer plus tard."
+        const details = error?.data?.errors
+        const detailsText = Array.isArray(details)
+            ? details.join(' ')
+            : typeof details === 'string'
+                ? details
+                : ''
+
+        errorMessage.value = error?.data?.message || error?.data?.error || detailsText || "Une erreur est survenue lors de l'inscription. Veuillez réessayer plus tard."
     }
 }
 </script>
