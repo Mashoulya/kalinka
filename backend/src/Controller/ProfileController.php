@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\User;
+use App\Enum\Gender;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -57,7 +58,7 @@ final class ProfileController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            return $this->json(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+            return $this->json(['error' => 'Utilisateur non authentifié'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $data = json_decode($request->getContent(), true);
@@ -82,13 +83,51 @@ final class ProfileController extends AbstractController
         }
 
         $user->setPassword($passwordHasher->hashPassword($user, $newPassword));
+        $user->setUpdatedAt(new \DateTimeImmutable());
         $entityManager->flush();
 
         return $this->json(['message' => 'Mot de passe mis à jour avec succès'], JsonResponse::HTTP_OK);
     }
 
     #[Route('/api/me/profile', name: 'api_me_profile_update', methods: ['PATCH'])]
-    public function updateProfile() {
+    public function updateProfile(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return $this->json(['error' => 'Utilisateur non authentifié'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
 
+        $data = json_decode($request->getContent(), true);
+        if (!is_array($data)) {
+            return $this->json(['error' => 'Corps JSON invalide'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $title = trim((string) ($data['title'] ?? ''));
+        $lastName = trim((string) ($data['lastName'] ?? ''));
+        $firstName = trim((string) ($data['firstName'] ?? ''));
+        $city = trim((string) ($data['city'] ?? ''));
+        $postalCode = trim((string) ($data['postalCode'] ?? ''));
+        $phone = trim((string) ($data['phone'] ?? ''));
+
+        if ($title === '' || $lastName === '' || $firstName === '' || $city === '' || $postalCode === '' || $phone === '') {
+            return $this->json(['error' => 'Les champs ne doivent pas être vides'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $gender = Gender::tryFrom($title);
+        if ($gender === null) {
+            return $this->json(['error' => 'Civilite invalide'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $user->setTitle($gender);
+        $user->setLastName($lastName);
+        $user->setFirstName($firstName);
+        $user->setCity($city);
+        $user->setPostalCode($postalCode);
+        $user->setPhone($phone);
+        $user->setUpdatedAt(new \DateTimeImmutable());
+
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Profil mis à jour avec succès'], JsonResponse::HTTP_OK);
     }
 }
