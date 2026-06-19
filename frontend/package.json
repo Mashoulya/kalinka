@@ -15,7 +15,5 @@
     "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },
-  "devDependencies": {
-    "daisyui": "^4.12.24"
-  }
+  "devDependencies": {}
 }

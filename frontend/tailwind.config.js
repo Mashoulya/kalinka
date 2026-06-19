@@ -1,8 +1,4 @@
 module.exports = {
-    plugins: [require('daisyui')],
-    daisyui: {
-        themes: ['light'],
-    },
     theme: {
         extend: {
             fontFamily: {
@@ -27,7 +23,7 @@ module.exports = {
                 },
                 white: {
                     DEFAULT: '#FFFFFF',
-                    section: '#FAFAFA',
+                    section: '#F9F9F9',
                 },
                 beige: {
                     light: '#FDF0D5',
