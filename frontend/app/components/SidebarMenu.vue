@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+// récupération des catégories
 const config = useRuntimeConfig()
 const {data: categories} = await useFetch<Array<{
     id: number
@@ -12,6 +13,16 @@ const {data: categories} = await useFetch<Array<{
     baseURL: config.apiBase
 })
 
+// gestion d'ouverture des catégories
+const openCategoryId = ref<number | null>(null)
+
+function toggleCategory(id: number) {
+    if (openCategoryId.value === id) {
+        openCategoryId.value = null
+    } else {
+        openCategoryId.value = id
+    }
+}
 
 </script>
 
@@ -31,13 +42,23 @@ const {data: categories} = await useFetch<Array<{
                     <img src="/logos/icon-category.svg" class="h-4 w-4" alt="">
                     <span>Catégories</span>
                 </li>
-                 <li v-for="cat in categories" :key="cat.id" class="flex flex-col items-start gap-3 p-3 font-medium">
-                            <button type="button" class="group flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 hover:bg-red-light hover:text-white">
+                 <li v-for="cat in categories" :key="cat.id" class="flex flex-col items-stretch p-0 font-medium">
+                    <button
+                        type="button"
+                        class="group flex w-full items-center justify-between gap-2 p-3 hover:bg-red-light hover:text-white"
+                        :class="openCategoryId === cat.id ? 'bg-red-light text-white' : ''"
+                        @click="toggleCategory(cat.id)"
+                    >
                         {{ cat.name }}
-                                <img src="/logos/icon-chevron-down.svg" class="h-4 w-4 transition-transform group-hover:brightness-0 group-hover:invert" alt="">
+                        <img
+                            src="/logos/icon-chevron-down.svg"
+                            class="h-4 w-4 transition-transform group-hover:brightness-0 group-hover:invert"
+                            :class="openCategoryId === cat.id ? 'rotate-180 brightness-0 invert' : ''"
+                            alt=""
+                        >
                     </button>
-                    <ul class="mt-2 space-y-1">
-                        <li v-for="subcat in cat.subcategories" :key="subcat.id">
+                    <ul v-if="openCategoryId === cat.id" class="space-y-1 px-3">
+                        <li v-for="subcat in cat.subcategories" :key="subcat.id" class="p-2 cursor-pointer">
                             {{ subcat.name }}
                         </li>
                     </ul>
