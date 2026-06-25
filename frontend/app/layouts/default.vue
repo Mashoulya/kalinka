@@ -4,6 +4,6 @@
         <main>
             <slot />
         </main>
-        <Footer />
+        <Footer v-if="$route.path !== '/shop'" />
     </div>
 </template>
