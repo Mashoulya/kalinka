@@ -112,7 +112,7 @@ const scrollReviews = (direction: 1 | -1) => {
         </p>
       </div>
 
-      <!-- cards -->
+      <!-- cartes de produits -->
       <div
         class="mt-20 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4"
       >
@@ -199,7 +199,7 @@ const scrollReviews = (direction: 1 | -1) => {
         </p>
       </div>
 
-      <!-- cards -->
+      <!-- cartes de produits -->
       <div
         class="mt-20 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4"
       >

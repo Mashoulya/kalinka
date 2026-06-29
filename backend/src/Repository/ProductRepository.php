@@ -32,13 +32,22 @@ class ProductRepository extends ServiceEntityRepository
            ;
        }
 
-    //    public function findOneBySomeField($value): ?Product
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+       /**
+        * @return Product[] Returns an array of Product objects
+        */
+       public function findProductsBySubcategory(int $subcategoryId): array
+       {
+           return $this->createQueryBuilder('p')
+               ->leftJoin('p.unit', 'u')
+               ->addSelect('u')
+               ->leftJoin('p.photos', 'ph')
+               ->addSelect('ph')
+               ->leftJoin('p.subcategory', 's')
+               ->andWhere('s.id = :subcategoryId')
+               ->setParameter('subcategoryId', $subcategoryId)
+               ->orderBy('p.id', 'ASC')
+               ->getQuery()
+               ->getResult()
+           ;
+       }
 }

@@ -13,6 +13,10 @@ const {data: categories} = await useFetch<Array<{
     baseURL: config.apiBase
 })
 
+const emit = defineEmits<{
+    (e: 'subcategory-selected', subcategoryId: number | null): void
+}>()
+
 // gestion d'ouverture des catégories
 const openCategoryId = ref<number | null>(null)
 
@@ -22,6 +26,19 @@ function toggleCategory(id: number) {
     } else {
         openCategoryId.value = id
     }
+}
+
+// affichage des produits selon la sous-catégorie sélectionnée
+const selectedSubcategoryId = ref<number | null>(null)
+
+function toggleSubcategory(id: number) {
+    if (selectedSubcategoryId.value === id) {
+        selectedSubcategoryId.value = null
+    } else {
+        selectedSubcategoryId.value = id
+    }
+
+    emit('subcategory-selected', selectedSubcategoryId.value)
 }
 
 </script>
@@ -58,7 +75,13 @@ function toggleCategory(id: number) {
                         >
                     </button>
                     <ul v-if="openCategoryId === cat.id" class="space-y-1 px-3">
-                        <li v-for="subcat in cat.subcategories" :key="subcat.id" class="p-2 cursor-pointer">
+                        <li
+                            v-for="subcat in cat.subcategories"
+                            :key="subcat.id"
+                            class="p-2 cursor-pointer"
+                            :class="selectedSubcategoryId === subcat.id ? 'text-red-light font-semibold' : ''"
+                            @click="toggleSubcategory(subcat.id)"
+                        >
                             {{ subcat.name }}
                         </li>
                     </ul>
