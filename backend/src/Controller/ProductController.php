@@ -4,15 +4,22 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\ProductRepository;
 
 final class ProductController extends AbstractController
 {
     #[Route('/api/products', name: 'app_products', methods: ['GET'])]
-    public function index(ProductRepository $productRepository): JsonResponse
+    public function index(ProductRepository $productRepository, Request $request): JsonResponse
     {
-        $products = $productRepository->findAllWithUnitAndPhotos();
+        $subcategoryId = $request->query->getInt('subcategory');
+
+        if ($subcategoryId > 0) {
+            $products = $productRepository->findProductsBySubcategory($subcategoryId);
+        } else {
+            $products = $productRepository->findAllWithUnitAndPhotos();
+        }
 
         $data = [];
         foreach ($products as $product) {

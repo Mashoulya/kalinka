@@ -13,6 +13,16 @@ const {data: categories} = await useFetch<Array<{
     baseURL: config.apiBase
 })
 
+const emit = defineEmits<{
+    (e: 'subcategory-selected', subcategoryId: number | null): void
+}>()
+
+const props = withDefaults(defineProps<{
+    selectedSubcategoryId?: number | null
+}>(), {
+    selectedSubcategoryId: null
+})
+
 // gestion d'ouverture des catégories
 const openCategoryId = ref<number | null>(null)
 
@@ -22,6 +32,11 @@ function toggleCategory(id: number) {
     } else {
         openCategoryId.value = id
     }
+}
+
+function toggleSubcategory(id: number) {
+    const nextSubcategoryId = props.selectedSubcategoryId === id ? null : id
+    emit('subcategory-selected', nextSubcategoryId)
 }
 
 </script>
@@ -58,7 +73,13 @@ function toggleCategory(id: number) {
                         >
                     </button>
                     <ul v-if="openCategoryId === cat.id" class="space-y-1 px-3">
-                        <li v-for="subcat in cat.subcategories" :key="subcat.id" class="p-2 cursor-pointer">
+                        <li
+                            v-for="subcat in cat.subcategories"
+                            :key="subcat.id"
+                            class="p-2 cursor-pointer"
+                            :class="props.selectedSubcategoryId === subcat.id ? 'text-red-light font-semibold' : ''"
+                            @click="toggleSubcategory(subcat.id)"
+                        >
                             {{ subcat.name }}
                         </li>
                     </ul>
