@@ -5,8 +5,10 @@ const config = useRuntimeConfig()
 const {data: categories} = await useFetch<Array<{
     id: number
     name: string
+    slug: string
     subcategories: Array<{
         id: number
+        slug: string
         name: string
     }>
 }>>('/api/categories', {
@@ -14,13 +16,13 @@ const {data: categories} = await useFetch<Array<{
 })
 
 const emit = defineEmits<{
-    (e: 'subcategory-selected', subcategoryId: number | null): void
+    (e: 'subcategory-selected', subcategorySlug: string | null): void
 }>()
 
 const props = withDefaults(defineProps<{
-    selectedSubcategoryId?: number | null
+    selectedSubcategorySlug?: string | null
 }>(), {
-    selectedSubcategoryId: null
+    selectedSubcategorySlug: null
 })
 
 // gestion d'ouverture des catégories
@@ -34,9 +36,9 @@ function toggleCategory(id: number) {
     }
 }
 
-function toggleSubcategory(id: number) {
-    const nextSubcategoryId = props.selectedSubcategoryId === id ? null : id
-    emit('subcategory-selected', nextSubcategoryId)
+function toggleSubcategory(slug: string) {
+    const nextSlug = props.selectedSubcategorySlug === slug ? null : slug
+    emit('subcategory-selected', nextSlug)
 }
 
 </script>
@@ -77,8 +79,8 @@ function toggleSubcategory(id: number) {
                             v-for="subcat in cat.subcategories"
                             :key="subcat.id"
                             class="p-2 cursor-pointer"
-                            :class="props.selectedSubcategoryId === subcat.id ? 'text-red-light font-semibold' : ''"
-                            @click="toggleSubcategory(subcat.id)"
+                            :class="props.selectedSubcategorySlug === subcat.slug ? 'text-red-light font-semibold' : ''"
+                            @click="toggleSubcategory(subcat.slug)"
                         >
                             {{ subcat.name }}
                         </li>

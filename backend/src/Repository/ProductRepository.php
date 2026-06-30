@@ -35,7 +35,7 @@ class ProductRepository extends ServiceEntityRepository
        /**
         * @return Product[] Returns an array of Product objects
         */
-       public function findProductsBySubcategory(int $subcategoryId): array
+       public function findProductsBySubcategory(string $subcategorySlug): array
        {
            return $this->createQueryBuilder('p')
                ->leftJoin('p.unit', 'u')
@@ -43,8 +43,8 @@ class ProductRepository extends ServiceEntityRepository
                ->leftJoin('p.photos', 'ph')
                ->addSelect('ph')
                ->leftJoin('p.subcategory', 's')
-               ->andWhere('s.id = :subcategoryId')
-               ->setParameter('subcategoryId', $subcategoryId)
+               ->andWhere('s.slug = :subcategorySlug')
+               ->setParameter('subcategorySlug', $subcategorySlug)
                ->orderBy('p.id', 'ASC')
                ->getQuery()
                ->getResult()
