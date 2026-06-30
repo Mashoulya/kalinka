@@ -6,20 +6,25 @@ const config = useRuntimeConfig()
 const route = useRoute()
 const router = useRouter()
 
-const selectedSubcategorySlug = computed<string | null>(() => {
+const selectedSubcategoryId = computed<number | null>(() => {
   const value = Array.isArray(route.query.subcategory)
     ? route.query.subcategory[0]
     : route.query.subcategory
 
-  return value || null
+  if (!value) {
+    return null
+  }
+
+  const parsed = Number(value)
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : null
 })
 
 const productQuery = computed(() => {
-  if (!selectedSubcategorySlug.value) {
+  if (!selectedSubcategoryId.value) {
     return {}
   }
 
-  return { subcategory: selectedSubcategorySlug.value }
+  return { subcategory: selectedSubcategoryId.value }
 })
 
 const { data: products, pending } = await useFetch<Product[]>('/api/products', {
@@ -29,11 +34,11 @@ const { data: products, pending } = await useFetch<Product[]>('/api/products', {
   default: () => []
 })
 
-function handleSubcategorySelected(subcategorySlug: string | null) {
+function handleSubcategorySelected(subcategoryId: number | null) {
   const query = { ...route.query }
 
-  if (subcategorySlug) {
-    query.subcategory = subcategorySlug
+  if (subcategoryId) {
+    query.subcategory = String(subcategoryId)
   } else {
     delete query.subcategory
   }
@@ -47,7 +52,7 @@ function handleSubcategorySelected(subcategorySlug: string | null) {
   <main class="min-h-screen bg-white-section md:grid md:grid-cols-6">
     <SidebarMenu
       class="md:col-span-1 md:self-stretch md:sticky md:top-0 md:h-screen md:overflow-y-auto"
-      :selected-subcategory-slug="selectedSubcategorySlug"
+      :selected-subcategory-id="selectedSubcategoryId"
       @subcategory-selected="handleSubcategorySelected"
     />
 
