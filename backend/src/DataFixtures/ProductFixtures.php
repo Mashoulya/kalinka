@@ -9,7 +9,6 @@ use Faker\Factory;
 use App\Entity\Product;
 use App\Entity\Subcategory;
 use App\Entity\Unit;
-use Cocur\Slugify\Slugify;
 
 class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -39,12 +38,9 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             throw new \RuntimeException('No units found. Load UnitFixtures before ProductFixtures.');
         }
 
-        $slugify = new Slugify();
-
         for ($i = 0; $i < 200; $i++) {
             $product = new Product();
             $product->setName($faker->word());
-            $product->setSlug($slugify->slugify($product->getName()) . '-' . $i);
             $product->setPrice($faker->randomFloat(2, 0.5, 100));
 
             $subcategory = $faker->randomElement($subcategories);
