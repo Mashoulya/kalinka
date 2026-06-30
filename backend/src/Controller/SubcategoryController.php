@@ -18,7 +18,6 @@ final class SubcategoryController extends AbstractController
         foreach ($subcategories as $subcategory) {
             $data[] = [
                 'id' => $subcategory->getId(),
-                'slug' => $subcategory->getSlug(),
                 'name' => $subcategory->getName(),
             ];
         }

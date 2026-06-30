@@ -13,10 +13,10 @@ final class ProductController extends AbstractController
     #[Route('/api/products', name: 'app_products', methods: ['GET'])]
     public function index(ProductRepository $productRepository, Request $request): JsonResponse
     {
-        $subcategorySlug = $request->query->getString('subcategory');
+        $subcategoryId = $request->query->getInt('subcategory');
 
-        if ($subcategorySlug !== '') {
-            $products = $productRepository->findProductsBySubcategory($subcategorySlug);
+        if ($subcategoryId > 0) {
+            $products = $productRepository->findProductsBySubcategory($subcategoryId);
         } else {
             $products = $productRepository->findAllWithUnitAndPhotos();
         }
@@ -27,7 +27,6 @@ final class ProductController extends AbstractController
 
             $data[] = [
                 'id' => $product->getId(),
-                'slug' => $product->getSlug(),
                 'name' => $product->getName(),
                 'price' => $product->getPrice(),
                 'size' => [

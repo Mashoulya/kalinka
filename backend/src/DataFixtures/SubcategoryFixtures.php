@@ -7,7 +7,6 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use App\Entity\Category;
 use App\Entity\Subcategory;
-use Cocur\Slugify\Slugify;
 
 class SubcategoryFixtures extends Fixture
 {
@@ -17,13 +16,10 @@ class SubcategoryFixtures extends Fixture
 
         $categories = $manager->getRepository(Category::class)->findAll();
 
-        $slugify = new Slugify();
-
         foreach ($categories as $category) {
             for ($j = 0; $j < rand(2, 4); $j++) {
                 $subcategory = new Subcategory();
                 $subcategory->setName($faker->unique()->word());
-                $subcategory->setSlug($slugify->slugify($subcategory->getName()));
                 $subcategory->setCategory($category);
                 $manager->persist($subcategory);
             }
