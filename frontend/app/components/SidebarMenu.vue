@@ -17,6 +17,12 @@ const emit = defineEmits<{
     (e: 'subcategory-selected', subcategoryId: number | null): void
 }>()
 
+const props = withDefaults(defineProps<{
+    selectedSubcategoryId?: number | null
+}>(), {
+    selectedSubcategoryId: null
+})
+
 // gestion d'ouverture des catégories
 const openCategoryId = ref<number | null>(null)
 
@@ -28,17 +34,9 @@ function toggleCategory(id: number) {
     }
 }
 
-// affichage des produits selon la sous-catégorie sélectionnée
-const selectedSubcategoryId = ref<number | null>(null)
-
 function toggleSubcategory(id: number) {
-    if (selectedSubcategoryId.value === id) {
-        selectedSubcategoryId.value = null
-    } else {
-        selectedSubcategoryId.value = id
-    }
-
-    emit('subcategory-selected', selectedSubcategoryId.value)
+    const nextSubcategoryId = props.selectedSubcategoryId === id ? null : id
+    emit('subcategory-selected', nextSubcategoryId)
 }
 
 </script>
@@ -79,7 +77,7 @@ function toggleSubcategory(id: number) {
                             v-for="subcat in cat.subcategories"
                             :key="subcat.id"
                             class="p-2 cursor-pointer"
-                            :class="selectedSubcategoryId === subcat.id ? 'text-red-light font-semibold' : ''"
+                            :class="props.selectedSubcategoryId === subcat.id ? 'text-red-light font-semibold' : ''"
                             @click="toggleSubcategory(subcat.id)"
                         >
                             {{ subcat.name }}
