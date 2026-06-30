@@ -16,21 +16,23 @@ final class Version20260630135000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // category: slug column and index already exist, just ensure NOT NULL
-        $this->addSql("UPDATE category SET slug = CONCAT(LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(name, ' ', '-'), 'é', 'e'), 'è', 'e'), 'à', 'a'), 'ç', 'c')), '-', id) WHERE slug IS NULL OR slug = ''");
-        $this->addSql("ALTER TABLE category MODIFY slug VARCHAR(160) NOT NULL");
+        // category
+        $this->addSql('ALTER TABLE category ADD slug VARCHAR(160) DEFAULT NULL');
+        $this->addSql("UPDATE category SET slug = CONCAT(LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(name, ' ', '-'), 'é', 'e'), 'è', 'e'), 'à', 'a'), 'ç', 'c')), '-', id)");
+        $this->addSql('ALTER TABLE category MODIFY slug VARCHAR(160) NOT NULL');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_64C19C1989D9B62 ON category (slug)');
 
         // product
         $this->addSql('ALTER TABLE product ADD slug VARCHAR(160) DEFAULT NULL');
         $this->addSql("UPDATE product SET slug = CONCAT(LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(name, ' ', '-'), 'é', 'e'), 'è', 'e'), 'à', 'a'), 'ç', 'c')), '-', id)");
-        $this->addSql("ALTER TABLE product MODIFY slug VARCHAR(160) NOT NULL");
-        $this->addSql("CREATE UNIQUE INDEX UNIQ_D34A04AD989D9B62 ON product (slug)");
+        $this->addSql('ALTER TABLE product MODIFY slug VARCHAR(160) NOT NULL');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_D34A04AD989D9B62 ON product (slug)');
 
         // subcategory
         $this->addSql('ALTER TABLE subcategory ADD slug VARCHAR(160) DEFAULT NULL');
         $this->addSql("UPDATE subcategory SET slug = CONCAT(LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(name, ' ', '-'), 'é', 'e'), 'è', 'e'), 'à', 'a'), 'ç', 'c')), '-', id)");
-        $this->addSql("ALTER TABLE subcategory MODIFY slug VARCHAR(160) NOT NULL");
-        $this->addSql("CREATE UNIQUE INDEX UNIQ_DDCA448989D9B62 ON subcategory (slug)");
+        $this->addSql('ALTER TABLE subcategory MODIFY slug VARCHAR(160) NOT NULL');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_DDCA448989D9B62 ON subcategory (slug)');
     }
 
     public function down(Schema $schema): void
