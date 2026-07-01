@@ -59,7 +59,7 @@ const profileLink = computed(() => (authToken.value ? "/profile" : "/login"));
         </div>
       </div>
 
-      <div class="flex items-center gap-3 md:px-20">
+      <div class="flex items-end gap-3 lg:px-20">
         <img
           src="/logos/icon-fb.svg"
           alt=""
@@ -86,7 +86,7 @@ const profileLink = computed(() => (authToken.value ? "/profile" : "/login"));
           />
         </NuxtLink>
 
-        <nav class="hidden md:block flex-1 md:flex md:justify-center">
+        <nav class="hidden flex-1 md:flex md:justify-center">
           <ul class="flex items-center text-center gap-6 font-medium text-white text-base">
             <li v-for="link in navConfig.links" :key="link.to">
               <NuxtLink :to="link.to">{{ link.label }}</NuxtLink>
@@ -105,7 +105,7 @@ const profileLink = computed(() => (authToken.value ? "/profile" : "/login"));
 
           <NuxtLink :to="profileLink" aria-label="Voir mon profil" @click="closeMenu">
             <img
-              src="/logos/icon-user.svg"
+              src="/logos/icon-profile.svg"
               alt=""
               class="h-8 w-8 md:h-8 md:w-8 brightness-0 invert"
             />
