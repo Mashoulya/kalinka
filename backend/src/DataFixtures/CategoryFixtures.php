@@ -14,9 +14,11 @@ class CategoryFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        for($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $category = new Category();
-            $category->setName($faker->word());
+            $name = $faker->word();
+            $category->setName($name);
+            $category->setSlug(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)) . '-' . $i);
             $manager->persist($category);
         }
 

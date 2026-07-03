@@ -40,7 +40,9 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 200; $i++) {
             $product = new Product();
-            $product->setName($faker->word());
+            $name = $faker->word();
+            $product->setName($name);
+            $product->setSlug(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)) . '-' . $i);
             $product->setPrice($faker->randomFloat(2, 0.5, 100));
 
             $subcategory = $faker->randomElement($subcategories);

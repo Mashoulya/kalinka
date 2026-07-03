@@ -19,7 +19,9 @@ class SubcategoryFixtures extends Fixture
         foreach ($categories as $category) {
             for ($j = 0; $j < rand(2, 4); $j++) {
                 $subcategory = new Subcategory();
-                $subcategory->setName($faker->unique()->word());
+                $name = $faker->unique()->word();
+                $subcategory->setName($name);
+                $subcategory->setSlug(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)) . '-' . $j . '-' . $category->getId());
                 $subcategory->setCategory($category);
                 $manager->persist($subcategory);
             }

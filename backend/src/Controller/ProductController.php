@@ -28,6 +28,7 @@ final class ProductController extends AbstractController
             $data[] = [
                 'id' => $product->getId(),
                 'name' => $product->getName(),
+                'slug' => $product->getSlug(),
                 'price' => $product->getPrice(),
                 'size' => [
                     'weightVolume' => $product->getWeightVolume(),
