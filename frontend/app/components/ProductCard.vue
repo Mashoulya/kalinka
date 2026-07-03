@@ -60,8 +60,8 @@ const decrement = () => {
             +
           </button>
         </div>
-        <NuxtLink aria-label="Voir le détail du produit" class="cursor-pointer">
-          <img src="/logos/icon-product-detail.svg" alt="" />
+        <NuxtLink :to="{name: 'products-slug', params: {slug: product.slug}}" aria-label="Voir le détail du produit" class="cursor-pointer">
+          <img src="/logos/icon-product-detail.svg" />
         </NuxtLink>
       </div>
     </div>

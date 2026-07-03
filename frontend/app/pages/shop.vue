@@ -60,11 +60,11 @@ function handleSubcategorySelected(subcategoryId: number | null) {
     <div class="md:col-span-4 flex min-w-0 flex-col">
       <section class="flex-1 px-5 py-10 md:px-10 lg:px-10">
         <h1 class="mb-10 text-center text-3xl font-bold text-red-light md:text-5xl">Boutique</h1>
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-3 items-center">
           <nav class="font-medium">
             Accueil > Boutique
           </nav>
-          <p class="font-medium text-sm">Tous nos produits Kalinka en Click & Collect</p>
+          <p class="font-medium text-sm text-center">Tous nos produits Kalinka en Click & Collect</p>
         </div>
         
     
