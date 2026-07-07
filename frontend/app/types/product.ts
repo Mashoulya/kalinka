@@ -9,4 +9,14 @@ export interface Product {
     }
     description: string
     photo: string | null
+    subcategory: {
+        id: number
+        name: string
+        slug: string
+    } | null
+    category: {
+        id: number
+        name: string
+        slug: string
+    } | null
 }

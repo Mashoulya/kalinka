@@ -61,8 +61,15 @@ function handleSubcategorySelected(subcategoryId: number | null) {
       <section class="flex-1 px-5 py-10 md:px-10 lg:px-10">
         <h1 class="mb-10 text-center text-3xl font-bold text-red-light md:text-5xl">Boutique</h1>
         <div class="grid grid-cols-3 items-center">
-          <nav class="font-medium">
-            Accueil > Boutique
+          <nav aria-label="fil d'ariane">
+             <ol class="flex font-medium">
+                <li>
+                    <NuxtLink to="/">Accueil</NuxtLink> >
+                </li>
+                <li class="text-red-light">
+                    <NuxtLink to="/shop">Boutique</NuxtLink>
+                </li>
+            </ol>
           </nav>
           <p class="font-medium text-sm text-center">Tous nos produits Kalinka en Click & Collect</p>
         </div>
