@@ -42,7 +42,7 @@ function toggleSubcategory(id: number) {
 </script>
 
 <template>
-    <aside class="bg-white">
+    <aside class="bg-white md:col-span-1 md:self-stretch md:sticky md:top-0 md:h-screen md:overflow-y-auto">
         <nav class="bg-white">
             <ul class="flex flex-col text-left text-sm">
                 <li class="flex items-center gap-3 p-3 font-semibold">

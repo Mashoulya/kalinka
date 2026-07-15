@@ -49,9 +49,8 @@ function handleSubcategorySelected(subcategoryId: number | null) {
 </script>
 
 <template>
-  <main class="min-h-screen bg-white-section md:grid md:grid-cols-6">
+  <div class="min-h-screen bg-white-section md:grid md:grid-cols-6">
     <SidebarMenu
-      class="md:col-span-1 md:self-stretch md:sticky md:top-0 md:h-screen md:overflow-y-auto"
       :selected-subcategory-id="selectedSubcategoryId"
       @subcategory-selected="handleSubcategorySelected"
     />
@@ -95,5 +94,5 @@ function handleSubcategorySelected(subcategoryId: number | null) {
     <aside class="md:col-span-1 md:sticky md:top-0 md:h-screen md:overflow-y-auto bg-black-1 text-white">
       Panier
     </aside>
-  </main>
+  </div>
 </template>

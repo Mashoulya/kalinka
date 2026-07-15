@@ -5,18 +5,8 @@ import type { Product } from "~/types/product";
 defineProps<{
   product: Product;
 }>();
-
 const quantity = ref(0);
-
-const increment = () => {
-  quantity.value += 1;
-};
-
-const decrement = () => {
-  quantity.value = Math.max(0, quantity.value - 1);
-};
 </script>
-
 
 <template>
   <article class="w-full max-w-[320px] justify-self-start bg-white rounded-[10px]">
@@ -39,27 +29,7 @@ const decrement = () => {
 
       <!-- button and details -->
       <div class="flex justify-between items-center">
-        <div class="inline-flex items-center bg-black rounded-md">
-          <button
-            @click="decrement"
-            class="text-white text-lg font-bold w-6 flex items-center justify-center"
-            type="button"
-            aria-label="Diminuer la quantité"
-          >
-            −
-          </button>
-          <span class="text-white text-base font-semibold w-6 text-center">{{
-            quantity
-          }}</span>
-          <button
-            @click="increment"
-            class="text-white text-lg font-bold w-6 flex items-center justify-center"
-            type="button"
-            aria-label="Augmenter la quantité"
-          >
-            +
-          </button>
-        </div>
+        <QuantitySelector v-model="quantity" />
         <NuxtLink :to="{name: 'products-slug', params: {slug: product.slug}}" aria-label="Voir le détail du produit" class="cursor-pointer">
           <img src="/logos/icon-product-detail.svg" />
         </NuxtLink>

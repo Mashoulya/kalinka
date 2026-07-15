@@ -26,7 +26,6 @@ const scrollReviews = (direction: 1 | -1) => {
 </script>
 
 <template>
-  <main>
     <!-- SECTION HERO -->
     <section
       class="w-full flex flex-col justify-end bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/images/image-home.png')] bg-cover bg-center bg-no-repeat z-[-1] py-[50px] px-5 md:px-20"
@@ -78,7 +77,7 @@ const scrollReviews = (direction: 1 | -1) => {
         <!-- scroll icon -->
 
         <div
-          class="flex h-12 w-12 items-center justify-center rounded-full border-[3px] border-beige-light bg-black-2 hidden md:flex"
+          class="h-12 w-12 rounded-full border-[3px] border-beige-light bg-black-2 hidden md:flex md:items-center md:justify-center"
         >
           <img
             src="/logos/icon-arrow-down.svg"
@@ -368,7 +367,6 @@ const scrollReviews = (direction: 1 | -1) => {
         </div>
    
     </section>
-  </main>
 </template>
 
 <style scoped>
