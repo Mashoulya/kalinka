@@ -41,7 +41,11 @@ final class ProductController extends AbstractController
 
     private function formatProduct(Product $product): array
     {
-        $mainPhoto = $product->getPhotos()->first();
+        $photos = array_map(
+            static fn ($photo) => $photo->getFileData(),
+            $product->getPhotos()->toArray()
+        );
+        $mainPhoto = $photos[0] ?? null;
 
         return [
             'id' => $product->getId(),
@@ -53,7 +57,8 @@ final class ProductController extends AbstractController
                 'unit' => $product->getUnit()?->getCode(),
             ],
             'description' => $product->getDescription(),
-            'photo' => $mainPhoto ? $mainPhoto->getFileData() : null,
+            'photo' => $mainPhoto,
+            'photos' => $photos,
             'subcategory' => $product->getSubcategory() ? [
                 'id' => $product->getSubcategory()->getId(),
                 'name' => $product->getSubcategory()->getName(),

@@ -72,20 +72,16 @@ function handleSubcategorySelected(subcategoryId: number | null) {
           </nav>
           <p class="font-medium text-sm text-center">Tous nos produits Kalinka en Click & Collect</p>
         </div>
-        
-    
-           <p v-if="pending" class="mt-10 text-sm font-medium">Chargement des produits...</p>
+          <p v-if="pending" class="mt-10 text-sm font-medium">Chargement des produits...</p>
+          <p v-else-if="!products.length" class="mt-10 text-sm font-medium">Aucun produit pour cette sous-catégorie.</p>
 
-           <p v-else-if="!products.length" class="mt-10 text-sm font-medium">Aucun produit pour cette sous-catégorie.</p>
-
-           <div v-else class="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4">
-           <ProductCard
-              v-for="product in products"
-              :key="product.id"
-              :product="product"
-           />
+          <div v-else class="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4">
+          <ProductCard
+            v-for="product in products"
+            :key="product.id"
+            :product="product"
+          />
           </div>
-       
       </section>
 
       <Footer />

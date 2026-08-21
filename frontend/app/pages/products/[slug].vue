@@ -39,21 +39,35 @@ const quantity = ref(0)
                         </li>
                     </ol>
                 </nav>
-                <div class="flex mt-6">
-                    <div class="w-full max-w-[400px] aspect-square">
-                        <!-- <img v-if="product && product.photo" :src="product.photo" class="w-full h-full object-cover" :alt="product.name"> -->
-                        <img :src="'/images/milk.jpg'" class="w-full h-full object-cover">
+                <div class="flex mt-6 gap-5">
+                    <div class="w-full max-w-[400px]">
+                        <!-- Image du produit essentielle -->
+                        <div class="w-full aspect-square overflow-hidden">
+                            <img :src="'/images/milk.jpg'" class="w-full h-full object-cover">
+                            <!-- <img v-if="product && product.photo" :src="product.photo" class="w-full h-full object-cover" :alt="product.name"> -->
+                        </div>
+                        <!-- les images miniatures (on les voit s'il y a plus d'un image)-->
+                        <div class="mt-3 flex gap-3">
+                            <button type="button" class="aspect-square w-20 overflow-hidden rounded border-2 border-black">
+                                <img :src="'/images/milk.jpg'" class="w-full h-full object-cover" alt="miniature du produit">
+                            </button>
+                            <button type="button" class="aspect-square w-20 overflow-hidden rounded border-2 border-transparent">
+                                <img :src="'/images/milk.jpg'" class="w-full h-full object-cover" alt="miniature du produit">
+                            </button>
+                        </div>
                     </div>
                     
-                    <div v-if="product" class="flex flex-col">
-                        <h1 class="font-semibold text-2xl">{{ capitalizeFirstLetter(product.name) }}</h1>
-                        <span class="font-medium text-xl">{{ product.size.weightVolume }}{{ product.size.unit }}</span>
-                        <span class="font-semibold text-3xl">{{ product.price }}€</span> 
-                        <div class="flex">
-                            <QuantitySelector v-model="quantity" />
-                            <PurchaseActionButton />
+                    <div v-if="product" class="flex flex-col gap-y-4">
+                        <div>
+                            <h1 class="font-semibold text-2xl">{{ capitalizeFirstLetter(product.name) }}</h1>
+                            <span class="font-medium text-xl">{{ product.size.weightVolume }}{{ product.size.unit }}</span>
                         </div>
-                        <p>{{ product.description }}</p>
+                        <span class="font-semibold text-3xl">{{ product.price }}€</span>
+                        <div class="flex gap-x-4">
+                            <QuantitySelector v-model="quantity" />
+                            <PurchaseActionButton class="w-full" />
+                        </div>
+                        <p class="w-full text-justify">{{ product.description }}</p>
                     </div>
                     <p v-else>Produit introuvable</p>
                 </div>
