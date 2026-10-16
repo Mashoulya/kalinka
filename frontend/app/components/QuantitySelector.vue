@@ -4,11 +4,13 @@ const props = withDefaults(
     modelValue?: number;
     min?: number;
     step?: number;
+    compact?: boolean;
   }>(),
   {
     modelValue: 0,
     min: 0,
     step: 1,
+    compact: false,
   }
 );
 
@@ -26,21 +28,21 @@ const decrement = () => {
 </script>
 
 <template>
-    <div class="inline-flex items-center bg-black rounded-md">
+        <div :class="['inline-flex items-center rounded-md bg-black', props.compact ? 'h-[22px]' : '']">
           <button
             @click="decrement"
-            class="text-white text-lg font-bold w-6 flex items-center justify-center"
+          :class="['flex w-6 items-center justify-center font-bold text-white', props.compact ? 'h-full text-sm leading-none' : 'text-lg']"
             type="button"
             aria-label="Diminuer la quantité"
           >
             −
           </button>
-          <span class="text-white text-base font-semibold w-6 text-center">{{
+          <span :class="['w-6 text-center font-semibold text-white', props.compact ? 'flex h-full items-center justify-center text-xs leading-none' : 'text-base']">{{
             props.modelValue
           }}</span>
           <button
             @click="increment"
-            class="text-white text-lg font-bold w-6 flex items-center justify-center"
+            :class="['flex w-6 items-center justify-center font-bold text-white', props.compact ? 'h-full text-sm leading-none' : 'text-lg']"
             type="button"
             aria-label="Augmenter la quantité"
           >

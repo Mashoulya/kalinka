@@ -2,9 +2,12 @@
 import { ref } from "vue";
 import type { Product } from "~/types/product";
 
-defineProps<{
+withDefaults(defineProps<{
   product: Product;
-}>();
+  compact?: boolean;
+}>(), {
+  compact: false,
+});
 const quantity = ref(0);
 </script>
 
@@ -19,19 +22,19 @@ const quantity = ref(0);
       </div>
 
       <!-- description -->
-      <h3 class="text-lg font-semibold pt-2">{{ product.name }}</h3>
+      <h3 :class="compact ? 'text-[13px]' : 'text-lg'" class="pt-2 font-semibold">{{ product.name }}</h3>
       <div class="mb-4 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <span class="text-xl font-semibold text-green-light">{{ product.price }}€</span>
+          <span :class="compact ? 'text-sm' : 'text-xl'" class="font-semibold text-green-light">{{ product.price }}€</span>
         </div>
-        <span class="size">{{ product.size.weightVolume }}{{ product.size.unit }}</span>
+        <span :class="compact ? 'text-[13px]' : ''" class="size">{{ product.size.weightVolume }}{{ product.size.unit }}</span>
       </div>
 
       <!-- button and details -->
       <div class="flex justify-between items-center">
-        <QuantitySelector v-model="quantity" />
+        <QuantitySelector v-model="quantity" :compact="compact" />
         <NuxtLink :to="{name: 'products-slug', params: {slug: product.slug}}" aria-label="Voir le détail du produit" class="cursor-pointer">
-          <img src="/logos/icon-product-detail.svg" />
+          <img src="/logos/icon-product-detail.svg" :class="compact ? 'h-5 w-5' : ''" />
         </NuxtLink>
       </div>
     </div>
