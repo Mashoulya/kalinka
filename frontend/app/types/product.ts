@@ -9,6 +9,7 @@ export interface Product {
     }
     description: string
     photo: string | null
+    photos: string[]
     subcategory: {
         id: number
         name: string

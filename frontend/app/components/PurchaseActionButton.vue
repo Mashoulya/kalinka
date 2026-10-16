@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    <button type="submit" class="bg-green-light text-beige-light rounded-md py-3 px-10">
+    <button type="submit" class="w-full bg-green-light text-beige-light rounded-md py-3 px-10">
         Ajouter au panier
     </button>
 </template>
