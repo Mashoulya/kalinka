@@ -36,7 +36,7 @@ const quantity = ref(0)
 
         <!-- SECTION DETAILS PRODUIT -->
         <div class="md:col-span-4 flex min-w-0 flex-col">
-            <section class="flex-1 px-5 py-10 md:px-10 lg:px-10">
+            <section class="flex-1 px-5 py-10 md:px-5 lg:px-5">
                 <nav aria-label="fil d'ariane">
                     <ol class="flex font-medium">
                         <li>
@@ -56,10 +56,23 @@ const quantity = ref(0)
                         </li>
                     </ol>
                 </nav>
-                <div class="mt-6 grid gap-x-5 gap-y-3 md:grid-cols-2">
-                    <div class="order-1 min-w-0 self-start md:col-start-1 md:row-start-1">
+                <div class="mt-6 grid gap-x-5 gap-y-3 md:grid-cols-2 xl:grid-cols-[minmax(0,400px)_minmax(0,1fr)]">
+                    <div class="order-1 flex min-w-0 flex-col gap-3 md:col-start-1 md:row-start-1">
                         <div class="aspect-square w-full max-w-[400px]">
                             <img :src="selectedImage" alt="Image du produit" class="block h-full w-full object-cover">
+                        </div>
+                        <div class="grid max-w-[400px] grid-cols-[repeat(3,minmax(0,6rem))] gap-2">
+                            <button
+                                v-for="image in galleryImages"
+                                :key="image"
+                                type="button"
+                                class="aspect-square w-full overflow-hidden rounded border-[0.5px]"
+                                :class="selectedImage === image ? 'border-black' : 'border-black/25'"
+                                :aria-label="`Afficher l’image ${image}`"
+                                @click="selectedImage = image"
+                            >
+                                <img :src="image" alt="" class="h-full w-full object-cover">
+                            </button>
                         </div>
                     </div>
 
@@ -73,27 +86,14 @@ const quantity = ref(0)
                             <QuantitySelector v-model="quantity" />
                             <PurchaseActionButton class="w-full"/>
                         </div>
-                        <p class="text-justify">{{ product.description }}</p>
+                        <p class="flex-1 text-justify">{{ product.description }}</p>
                     </div>
                     <p v-else class="order-3 md:col-start-2 md:row-start-1">Produit introuvable</p>
 
-                    <div class="order-2 flex gap-2 md:col-start-1 md:row-start-2">
-                        <button
-                            v-for="image in galleryImages"
-                            :key="image"
-                            type="button"
-                            class="size-14 shrink-0 overflow-hidden rounded border-2"
-                            :class="selectedImage === image ? 'border-red-light' : 'border-gray-300'"
-                            :aria-label="`Afficher l’image ${image}`"
-                            @click="selectedImage = image"
-                        >
-                            <img :src="image" alt="" class="h-full w-full object-cover">
-                        </button>
-                    </div>
-
-                    <section v-if="product" class="similar-products order-4 min-w-0 md:col-start-2 md:row-start-2 md:mt-16">
-                        <h4 class="mb-3 font-semibold text-[22px]">Produits similaires :</h4>
-                        <div class="grid grid-cols-3 divide-x divide-gray-300 border border-gray-300 border-radius">
+                    <!-- PRODUITS SIMILAIRES -->
+                    <section v-if="product" class="similar-products order-4 min-w-0 md:col-start-2 md:row-start-2">
+                        <h4 class="mb-3 font-semibold text-[20px] lg:text-[20px]">Produits similaires :</h4>
+                        <div class="grid grid-cols-2 divide-x divide-gray-300 overflow-hidden xl:grid-cols-3 max-xl:[&>*:nth-child(3)]:hidden rounded-md border border-gray-300">
                             <ProductCard
                                 v-for="similarProduct in similarProducts"
                                 :key="similarProduct.id"

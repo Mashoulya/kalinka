@@ -31,22 +31,22 @@ const decrement = () => {
         <div :class="['inline-flex items-center rounded-md bg-black', props.compact ? 'h-[22px]' : '']">
           <button
             @click="decrement"
-          :class="['flex w-6 items-center justify-center font-bold text-white', props.compact ? 'h-full text-sm leading-none' : 'text-lg']"
+          :class="['flex items-center justify-center font-bold text-white', props.compact ? 'h-full w-[18px] text-sm leading-none xl:w-6' : 'w-6 text-lg']"
             type="button"
             aria-label="Diminuer la quantité"
           >
-            −
+            <svg class="size-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 6h8" /></svg>
           </button>
-          <span :class="['w-6 text-center font-semibold text-white', props.compact ? 'flex h-full items-center justify-center text-xs leading-none' : 'text-base']">{{
+          <span :class="['text-center font-semibold text-white', props.compact ? 'flex h-full w-[18px] items-center justify-center text-xs leading-none xl:w-6' : 'w-6 text-base']">{{
             props.modelValue
           }}</span>
           <button
             @click="increment"
-            :class="['flex w-6 items-center justify-center font-bold text-white', props.compact ? 'h-full text-sm leading-none' : 'text-lg']"
+            :class="['flex items-center justify-center font-bold text-white', props.compact ? 'h-full w-[18px] text-sm leading-none xl:w-6' : 'w-6 text-lg']"
             type="button"
             aria-label="Augmenter la quantité"
           >
-            +
+            <svg class="size-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 6h8M6 2v8" /></svg>
           </button>
         </div>
 </template>
