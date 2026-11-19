@@ -34,7 +34,7 @@ const quantity = ref(0)
     <div class="min-h-screen bg-white-section md:grid md:grid-cols-6">
         <SidebarMenu />
 
-        <!-- SECTION DETAILS PRODUIT -->
+        <!-- DETAIL PRODUCT SECTION -->
         <div class="md:col-span-4 flex min-w-0 flex-col">
             <section class="flex-1 px-5 py-10 md:px-5 lg:px-5">
                 <nav aria-label="fil d'ariane">
@@ -90,7 +90,7 @@ const quantity = ref(0)
                     </div>
                     <p v-else class="order-3 md:col-start-2 md:row-start-1">Produit introuvable</p>
 
-                    <!-- PRODUITS SIMILAIRES -->
+                    <!-- SIMILAR PRODUCTS -->
                     <section v-if="product" class="similar-products order-4 min-w-0 md:col-start-2 md:row-start-2">
                         <h4 class="mb-3 font-semibold text-[20px] lg:text-[20px]">Produits similaires :</h4>
                         <div class="grid grid-cols-2 divide-x divide-gray-300 overflow-hidden xl:grid-cols-3 max-xl:[&>*:nth-child(3)]:hidden rounded-md border border-gray-300">

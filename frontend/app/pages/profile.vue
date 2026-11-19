@@ -3,7 +3,7 @@ definePageMeta({
     middleware: 'auth'
 })
 
-// COMMANDES
+// ORDERS
 type OrderItem = {
     id: number
     totalPrice: string
@@ -100,7 +100,7 @@ onMounted(() => {
     fetchUserInfo()
 })
 
-// CHANGEMENT DE MOT DE PASSE
+// PASSWORD CHANGE
 
 const oldPassword = ref('')
 const newPassword = ref('')
@@ -149,7 +149,7 @@ async function changePassword() {
 }
 
 
-// MISE A JOUR DE PROFILE
+// PROFILE UPDATE
 
 async function updateProfile() {
     profileError.value = ''
@@ -191,9 +191,9 @@ async function updateProfile() {
 </script>
 
 <template>
-<!-- modale modifier mdp -->
+<!-- modale password update -->
 
-<!-- Overlay et modale pour modification du mot de passe -->
+<!-- Overlay et modale password update -->
 <div v-if="showPasswordModal" class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 h-screen">
     <div class="bg-white rounded-lg p-8 w-full max-w-xl mx-4">
         <h2 class="text-red-light font-bold text-2xl md:text-4xl">Modification du mot de passe</h2>
@@ -235,7 +235,7 @@ async function updateProfile() {
 
     <section class="py-10 space-y-10 px-5 md:px-20 md:py-20 md:space-y-20">
         <h1 class="text-red-light text-3xl font-bold text-center mb-14 md:text-5xl">Mon compte</h1>
-        <!-- commandes -->
+        <!-- orders -->
         <div class="flex justify-between items-center bg-green-light/5 border border-black/25 rounded-lg p-10">
             <span class="font-semibold text-lg">Mes commandes</span>
             <span class="font-semibold text-lg">{{ orders.length }}/3</span>
@@ -273,7 +273,7 @@ async function updateProfile() {
             </table>
         </div>
        
-        <!-- identifiants -->
+        <!-- IDs -->
         <div class="flex justify-between items-center bg-green-light/5 border border-black/25 rounded-lg p-10">
             <span class="font-semibold text-lg">Mes identifiants</span>
             <span class="font-semibold text-lg">2/3</span>
@@ -288,7 +288,7 @@ async function updateProfile() {
             <button @click="openPasswordModal" type="button" class="justify-self-start text-red-light font-semibold underline underline-offset-2 md:col-start-3 md:row-start-2 md:self-center">Modifier le mot de passe</button>
         </form>
 
-        <!-- coordonnées -->
+        <!-- Contact information -->
         <div class="flex justify-between items-center bg-green-light/5 border border-black/25 rounded-lg p-10">
             <span class="font-semibold text-lg">Mes coordonnées</span>
             <span class="font-semibold text-lg">3/3</span>
@@ -311,15 +311,15 @@ async function updateProfile() {
                 </label>
             </div>
 
-            <!-- Nom -->
+            <!-- Last name -->
             <label for="lastName" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-2">Nom</label>
             <input v-model="userInfo.lastName" type="text" id="lastName" name="lastName" placeholder="Nom" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-2">
 
-            <!-- Prénom -->
+            <!-- First name -->
             <label for="firstName" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-3">Prénom</label>
             <input v-model="userInfo.firstName" type="text" id="firstName" name="firstName" placeholder="Prénom" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-3">
 
-            <!-- Date de naissance -->
+            <!-- Birthday date -->
             <div class="md:col-start-1 md:row-start-4 flex items-center gap-2 md:justify-end">
                 <label class="text-lg font-semibold">Date de naissance</label>
                 <img src="/logos/icon-lock-green.svg" alt="" class="h-6 w-6">
@@ -328,15 +328,15 @@ async function updateProfile() {
             <img src="/logos/icon-question-green.svg" alt="" class="h-6 w-6 md:col-start-3 md:row-start-4 md:self-center md:justify-self-start" title="Pour modifier votre date de naissance, contactez le service client."/>
             
 
-            <!-- Code postal -->
+            <!-- Postal cCode  -->
             <label for="postalCode" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-5">Code postal</label>
             <input v-model="userInfo.postalCode" type="text" id="postalCode" name="postalCode" placeholder="Code postal" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-5">
 
-            <!-- Ville -->
+            <!-- City -->
             <label for="city" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-6">Ville</label>
             <input v-model="userInfo.city" type="text" id="city" name="city" placeholder="Ville" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-6">
 
-            <!-- Téléphone -->
+            <!-- Tel -->
             <label for="phone" class="font-semibold text-lg md:text-right md:col-start-1 md:row-start-7">Téléphone</label>
             <input v-model="userInfo.phone" type="tel" id="phone" name="phone" placeholder="Numéro de téléphone" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm md:col-start-2 md:row-start-7">
             <button
