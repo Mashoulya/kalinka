@@ -87,8 +87,6 @@ function handleSubcategorySelected(subcategoryId: number | null) {
       <Footer />
     </div>
 
-    <aside class="md:col-span-1 md:sticky md:top-0 md:h-screen md:overflow-y-auto bg-black-1 text-white">
-      Panier
-    </aside>
+    <CartSidebar />
   </div>
 </template>
