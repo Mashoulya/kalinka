@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-    <!-- Lien vers une page -->
+    <!-- Link to the page -->
     <NuxtLink
         v-if="props.to"
         :to="props.to"
@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<{
         <slot />
     </NuxtLink>
 
-    <!-- Bouton de soumission ou action -->
+    <!-- Submit or action button -->
     <button
         v-else
         :type="props.type"

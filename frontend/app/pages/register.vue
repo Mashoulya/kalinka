@@ -132,47 +132,37 @@ const submitRegister = async () => {
                     </label>
                 </div>
 
-                <!-- Nom -->
                 <label for="lastName" class="font-semibold text-lg md:text-right">Nom *</label>
                 <input v-model="formData.lastName" type="text" id="lastName" name="lastName" placeholder="Nom" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
 
-                <!-- Prénom -->
                 <label for="firstName" class="font-semibold text-lg md:text-right">Prénom *</label>
                 <input v-model="formData.firstName" type="text" id="firstName" name="firstName" placeholder="Prénom" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
 
-                <!-- Date de naissance -->
                 <label class="font-semibold text-lg md:text-right">Date de naissance *</label>
                 <BaseDateInput v-model="formData.birthDate" name="birthDate" />
 
-                <!-- Code postal -->
                 <label for="postalCode" class="font-semibold text-lg md:text-right">Code postal *</label>
                 <input v-model="formData.postalCode" type="text" id="postalCode" name="postalCode" placeholder="Code postal" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
 
-                <!-- Ville -->
                 <label for="city" class="font-semibold text-lg md:text-right">Ville *</label>
                 <input v-model="formData.city" type="text" id="city" name="city" placeholder="Ville" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
 
-                <!-- Téléphone -->
                 <label for="phone" class="font-semibold text-lg md:text-right">Téléphone *</label>
                 <input v-model="formData.phone" type="tel" id="phone" name="phone" placeholder="Numéro de téléphone" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
 
-                <!-- Infos obligatoires -->
                 <span class="text-sm text-center md:col-start-2 md:text-right">* Informations obligatoires</span>
 
                 <p v-if="errorMessage" class="text-sm text-red-light md:col-start-2">
                     {{ errorMessage }}
                 </p>
 
-                <!-- Bouton valider -->
                 <BaseButton type="button" class="mt-4 md:col-start-2" @click="goToStep2">Valider</BaseButton>
             </template>
 
             <template v-else>
-                 <!-- Email -->
                 <label for="email" class="font-semibold text-lg md:text-right">Adresse email *</label>
                 <input v-model="formData.email" type="email" id="email" name="email" placeholder="Email" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
 
-                <!-- Mot de passe -->
                 <label for="password" class="font-semibold text-lg md:text-right">Mot de passe *</label>
                 <input v-model="formData.password" type="password" id="password" name="password" placeholder="Mot de passe (8 caractères minimum)" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
 
@@ -186,7 +176,6 @@ const submitRegister = async () => {
                     </ul>
                 </div>
 
-                <!-- Confirmation mot de passe -->
                 <label for="confirmPassword" class="font-semibold text-lg md:text-right">Confirmation mot de passe *</label>
                 <input v-model="formData.confirmPassword" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmation du mot de passe" class="rounded-lg border border-black/25 outline-none w-full py-3 px-2 text-sm">
 

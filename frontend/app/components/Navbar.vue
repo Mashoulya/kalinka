@@ -125,7 +125,7 @@ const profileLink = computed(() => (authToken.value ? "/profile" : "/login"));
           </button>
         </div>
 
-        <!-- BARRE DE RECHERCHE -->
+        <!-- SEARCH BAR -->
         <div
           v-if="route.path !== '/' && !isMenuOpen"
           class="order-4 w-full md:order-2 md:w-[clamp(14rem,30vw,20rem)] lg:w-[clamp(20rem,34vw,28rem)] md:ml-auto"

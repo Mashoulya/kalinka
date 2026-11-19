@@ -26,7 +26,7 @@ const scrollReviews = (direction: 1 | -1) => {
 </script>
 
 <template>
-    <!-- SECTION HERO -->
+    <!-- HERO SECTION -->
     <section
       class="w-full flex flex-col justify-end bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/images/image-home.png')] bg-cover bg-center bg-no-repeat z-[-1] py-[50px] px-5 md:px-20"
     >
@@ -88,7 +88,7 @@ const scrollReviews = (direction: 1 | -1) => {
       </div>
     </section>
 
-    <!-- SECTION PROMOS -->
+    <!-- PROMOTIONS -->
     <section class="bg-white-section py-20 px-5 md:px-20">
       <!-- header -->
       <div class="flex items-center gap-2 pb-5">
@@ -111,7 +111,7 @@ const scrollReviews = (direction: 1 | -1) => {
         </p>
       </div>
 
-      <!-- cartes de produits -->
+      <!-- product cards -->
       <div
         class="mt-20 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4"
       >
@@ -132,7 +132,7 @@ const scrollReviews = (direction: 1 | -1) => {
       </div>
     </section>
 
-    <!-- SECTION SERVICES -->
+    <!--  SERVICES SECTION -->
     <section class="py-20 px-5 md:px-20">
       <div class="flex items-center justify-center gap-2 pb-5">
         <img src="/logos/icon-section.svg" alt="icon-section" />
@@ -151,7 +151,7 @@ const scrollReviews = (direction: 1 | -1) => {
         </p>
       </div>
 
-      <!-- 3 cartes services -->
+      <!-- 3 service cards -->
 
       <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div class="rounded-2xl border border-black-5/25 p-8">
@@ -198,7 +198,7 @@ const scrollReviews = (direction: 1 | -1) => {
         </p>
       </div>
 
-      <!-- cartes de produits -->
+      <!-- product cards -->
       <div
         class="mt-20 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4"
       >

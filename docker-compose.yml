@@ -37,7 +37,7 @@ services:
       MYSQL_USER: app
       MYSQL_PASSWORD: masha
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - database_data:/var/lib/mysql
     healthcheck:

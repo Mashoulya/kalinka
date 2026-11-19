@@ -55,7 +55,7 @@ function handleSubcategorySelected(subcategoryId: number | null) {
       @subcategory-selected="handleSubcategorySelected"
     />
 
-    <!-- SECTION BOUTIQUE -->
+    <!-- SHOP SECTION -->
     <div class="md:col-span-4 flex min-w-0 flex-col">
       <section class="flex-1 px-5 py-10 md:px-10 lg:px-10">
         <h1 class="mb-10 text-center text-3xl font-bold text-red-light md:text-5xl">Boutique</h1>
@@ -87,8 +87,6 @@ function handleSubcategorySelected(subcategoryId: number | null) {
       <Footer />
     </div>
 
-    <aside class="md:col-span-1 md:sticky md:top-0 md:h-screen md:overflow-y-auto bg-black-1 text-white">
-      Panier
-    </aside>
+    <CartSidebar />
   </div>
 </template>
